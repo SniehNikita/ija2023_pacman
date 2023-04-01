@@ -1,11 +1,29 @@
 package ija.ija2022.homework2.tool.common;
 
-public class CommonField {
-	
-	enum Direction {
+public interface CommonField extends Observable {
+
+	// TODO Maybe another better implementation
+	public static enum Direction {
 		D, L, R, U;
+		
+		int deltaCol() {
+			return 0;
+		}
+
+		int deltaRow() {
+			return 0;
+		}
+		
 	}
+
+	boolean canMove();
 	
-	public static final String Direction = null;
+	boolean contains(CommonMazeObject obj);
+	
+	CommonMazeObject get();
+	
+	boolean isEmpty();
+	
+	CommonField nextField(CommonField.Direction dir);
 
 }

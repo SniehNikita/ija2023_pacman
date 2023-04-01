@@ -1,20 +1,17 @@
 package ija.ija2022.homework2.tool.common;
 
-public class CommonMazeObject {
+import ija.ija2022.homework2.tool.common.CommonField.Direction;
 
-	public boolean isPacman() {
-		// TODO Auto-generated method stub
-		return false;
-	}
+public interface CommonMazeObject {
+	
+	boolean canMove(CommonField.Direction dir);
 
-	public Object[] getField() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	CommonField getField();
 
-	public Object getLives() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	boolean isPacman();
+
+	boolean move(CommonField.Direction d);
+
+	Object getLives();
 
 }

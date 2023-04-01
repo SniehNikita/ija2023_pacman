@@ -7,11 +7,11 @@ import ija.ija2022.homework1.common.MazeObject;
 
 public class PacmanObject implements MazeObject{
 	private Field staysAt = null;
-	private Maze existsIn = null;
+//	private Maze existsIn = null;
 		
 	public PacmanObject(Field field, Maze maze) {
 		staysAt = field;
-		existsIn = maze;
+//		existsIn = maze;
 	}
 	
 	@Override

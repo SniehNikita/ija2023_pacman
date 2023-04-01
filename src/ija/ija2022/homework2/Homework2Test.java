@@ -55,9 +55,7 @@ public class Homework2Test {
         CommonMazeObject obj = lstGhost.remove(0);
         Assert.assertEquals("Bludiste obsahuje jednoho ducha", 1, maze.ghosts().size());
         Assert.assertFalse("Objekt neni pacman", obj.isPacman());
-        Assert.assertEquals("Objekt je na spravne pozici",
-                maze.getField(1, 3),
-                obj.getField());
+        Assert.assertEquals("Objekt je na spravne pozici", maze.getField(1, 3), obj.getField());
     }
  
     /**
@@ -105,7 +103,7 @@ public class Homework2Test {
      */
     @Test
     public void testNotificationGhostMoving() {
-        MazeTester tester = new MazeTester(maze);        
+        MazeTester	tester = new MazeTester(maze);        
        
         // Ghost na pozici 1,3
         CommonMazeObject obj = maze.ghosts().get(0);
