@@ -1,6 +1,6 @@
-package ija.ija2022.homework2.game;
+package pacman.tools;
 
-import ija.ija2022.homework2.tool.common.CommonMaze;
+import pacman.game.GeneralMaze;
 
 public class MazeConfigure {
 		
@@ -49,7 +49,6 @@ public class MazeConfigure {
 
 	public void stopReading() {
 		if (isReading && curLine + 1 == maze.numRows()) {
-			// fclose(stdin);
 			isReading = false;
 		} else {
 			// TODO ERRHANDLE

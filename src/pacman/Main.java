@@ -2,7 +2,7 @@
  * IJA 2022/23: Úloha 2
  * Spuštění presentéru (vizualizace) implementace modelu bludiště.
  */
-package ija.ija2022.homework2;
+package pacman;
 
 import java.awt.GridLayout;
 import java.util.logging.Level;
@@ -12,18 +12,12 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.ImageIcon;
 
-//--- Importy z implementovaneho reseni ukolu
-import ija.ija2022.homework2.game.MazeConfigure;
-import ija.ija2022.homework2.game.WallField;
-import ija.ija2022.homework2.game.PathField;
-//--- 
-
-//--- Importy z baliku dodaneho nastroje
-import ija.ija2022.homework2.tool.MazePresenter;
-import ija.ija2022.homework2.tool.common.CommonField;
-import ija.ija2022.homework2.tool.common.CommonMaze;
-import ija.ija2022.homework2.tool.common.CommonMazeObject;
-//--- 
+import pacman.tools.MazeConfigure;
+import pacman.tools.CommonField;
+import pacman.tools.CommonMaze;
+import pacman.tools.CommonMazeObject;
+import pacman.game.PathField;
+import pacman.game.WallField;
 
 /**
  * Třída spustí vizualizaci implementace modelu bludiště. 
@@ -31,7 +25,7 @@ import ija.ija2022.homework2.tool.common.CommonMazeObject;
  * v balíku ija.ija2022.homework2.common, který je součástí dodaného nástroje.
  * @author Radek Kočí
  */
-public class Homework2 {
+public class Main {
     
     public static void main(String... args) {
         MazeConfigure cfg = new MazeConfigure();
@@ -51,8 +45,8 @@ public class Homework2 {
         
         CommonMaze maze = cfg.createMaze();
         
-        ImageIcon wallimage = new ImageIcon("src/wall.png");
-        ImageIcon pathimage = new ImageIcon("src/path.png");
+        ImageIcon wallimage = new ImageIcon("materials/sprites/wall.png");
+        ImageIcon pathimage = new ImageIcon("materials/sprites/path.png");
         
         JFrame frame = new JFrame();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -114,7 +108,7 @@ public class Homework2 {
         try {
             Thread.sleep(ms);
         } catch (InterruptedException ex) {
-            Logger.getLogger(Homework2.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
         }        
     }
 }

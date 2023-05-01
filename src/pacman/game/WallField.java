@@ -1,6 +1,6 @@
-package ija.ija2022.homework2.game;
+package pacman.game;
 
-import ija.ija2022.homework2.tool.common.CommonMazeObject;
+import pacman.tools.CommonMazeObject;
 
 public class WallField extends GeneralField{
 	

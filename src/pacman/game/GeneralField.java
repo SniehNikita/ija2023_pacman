@@ -1,12 +1,8 @@
-package ija.ija2022.homework2.game;
+package pacman.game;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import ija.ija2022.homework2.tool.common.CommonField;
-import ija.ija2022.homework2.tool.common.CommonMaze;
-import ija.ija2022.homework2.tool.common.CommonMazeObject;
-import ija.ija2022.homework2.tool.common.Observable;
+import pacman.tools.CommonField;
+import pacman.tools.CommonMaze;
+import pacman.tools.CommonMazeObject;
 
 public class GeneralField implements CommonField {
 	
@@ -14,16 +10,11 @@ public class GeneralField implements CommonField {
 	protected int col = -1;
 	protected CommonMaze maze = null;
 	
-	private List<Observable.Observer> observers;
-	
 	public GeneralField(int i, int j) {
 		if (i >= 0 && j >= 0) {
 			row = i;
 			col = j;
 			maze = null;
-			observers = new ArrayList<Observable.Observer>();
-		} else {
-			// TODO ERRHANDLE
 		}
 	}
 
@@ -58,27 +49,6 @@ public class GeneralField implements CommonField {
 
 	public boolean remove(CommonMazeObject obj) {
 		return false;
-	}
-
-	@Override
-	public void addObserver(Observer o) {
-		observers.add(o);		
-	}
-
-	@Override
-	public void notifyObservers() {
-		for (int i = 0; i < observers.size(); i++) {
-			observers.get(i).update(this);
-		}
-	}
-
-	@Override
-	public void removeObserver(Observer o) {
-		for (int i = 0; i < observers.size(); i++) {
-			if (o.equals(observers.get(i))) {
-				observers.remove(i);
-			}
-		}		
 	}
 
 	@Override

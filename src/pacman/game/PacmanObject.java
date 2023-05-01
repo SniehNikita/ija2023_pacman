@@ -1,9 +1,9 @@
-package ija.ija2022.homework2.game;
+package pacman.game;
 
-import ija.ija2022.homework2.tool.common.CommonField;
-import ija.ija2022.homework2.tool.common.CommonField.Direction;
-import ija.ija2022.homework2.tool.common.CommonMaze;
-import ija.ija2022.homework2.tool.common.CommonMazeObject;
+import pacman.tools.CommonField;
+import pacman.tools.CommonField.Direction;
+import pacman.tools.CommonMaze;
+import pacman.tools.CommonMazeObject;
 
 public class PacmanObject implements CommonMazeObject {
 
@@ -37,10 +37,8 @@ public class PacmanObject implements CommonMazeObject {
 	public boolean move(Direction u) {
 		if (this.canMove(u)) {
 			((PathField) staysAt).remove(this);
-			((PathField) staysAt).notifyObservers();
 			staysAt = staysAt.nextField(u);
 			((PathField) staysAt).put(this);
-			((PathField) staysAt).notifyObservers();
 			return true;
 		}
 		return false;

@@ -1,9 +1,9 @@
-package ija.ija2022.homework2.game;
+package pacman.game;
 
-import ija.ija2022.homework2.tool.common.CommonField;
-import ija.ija2022.homework2.tool.common.CommonMaze;
-import ija.ija2022.homework2.tool.common.CommonMazeObject;
-import ija.ija2022.homework2.tool.common.CommonField.Direction;
+import pacman.tools.CommonField;
+import pacman.tools.CommonMaze;
+import pacman.tools.CommonMazeObject;
+import pacman.tools.CommonField.Direction;
 
 public class GhostObject implements CommonMazeObject {
 	private CommonField staysAt = null;
@@ -27,10 +27,8 @@ public class GhostObject implements CommonMazeObject {
 	public boolean move(Direction u) {
 		if (this.canMove(u)) {
 			((PathField) staysAt).remove(this);
-			((PathField) staysAt).notifyObservers();
 			staysAt = staysAt.nextField(u);
 			((PathField) staysAt).put(this);
-			((PathField) staysAt).notifyObservers();
 			return true;
 		}
 		return false;

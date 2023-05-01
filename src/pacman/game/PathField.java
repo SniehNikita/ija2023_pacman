@@ -1,10 +1,10 @@
-package ija.ija2022.homework2.game;
+package pacman.game;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import ija.ija2022.homework2.tool.common.CommonField;
-import ija.ija2022.homework2.tool.common.CommonMazeObject;
+import pacman.tools.CommonField;
+import pacman.tools.CommonMazeObject;
 
 public class PathField extends GeneralField {
 	public List<CommonMazeObject> objs;
