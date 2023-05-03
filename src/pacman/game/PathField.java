@@ -1,8 +1,15 @@
 package pacman.game;
 
+import java.awt.Graphics2D;
+import java.awt.Image;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.imageio.ImageIO;
+
+import pacman.tools.CONST;
 import pacman.tools.CommonField;
 import pacman.tools.CommonMazeObject;
 
@@ -24,9 +31,14 @@ public class PathField extends GeneralField {
 
 	@Override
 	public CommonMazeObject get() {
-		return objs.get(0);
+		if (objs.isEmpty()) {
+			return null;
+		} else {		
+			return objs.get(0);
+	
+		}
 	}
-
+		
 	@Override
 	public boolean remove(CommonMazeObject obj) {
 		for (int i = 0; i < objs.size(); i++) {
@@ -98,5 +110,19 @@ public class PathField extends GeneralField {
 		}
 		return false;
 	}
-	 
+	
+	
+	@Override
+	public void draw(Graphics2D g) {
+		Image img = null;
+		try {
+			img = ImageIO.read(new File(CONST.PATHFIELD_PATH));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		g.drawImage(img, this.getCol()*CONST.SPRITE_SIZE, this.getRow()*CONST.SPRITE_SIZE, CONST.SPRITE_SIZE, CONST.SPRITE_SIZE, null);
+		for (int i = 0; i < objs.size(); i++) {
+			objs.get(i).draw(g);
+		}
+	}
 }

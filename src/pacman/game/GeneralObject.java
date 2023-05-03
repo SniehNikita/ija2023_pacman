@@ -1,5 +1,7 @@
 package pacman.game;
 
+import java.awt.Graphics2D;
+
 import pacman.tools.CommonField;
 import pacman.tools.CommonMaze;
 import pacman.tools.CommonField.Direction;
@@ -49,5 +51,10 @@ public class GeneralObject implements CommonMazeObject {
 	public boolean isPacman() {
 		// TODO Auto-generated method stub
 		return false;
+	}
+	
+	@Override
+	public void draw(Graphics2D g) {
+		
 	}
 }

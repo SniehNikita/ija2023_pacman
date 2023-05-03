@@ -1,5 +1,7 @@
 package pacman.tools;
 
+import java.awt.Graphics2D;
+
 import pacman.tools.CommonField.Direction;
 
 public interface CommonMazeObject {
@@ -13,5 +15,7 @@ public interface CommonMazeObject {
 	int getLives();
 
 	boolean isPacman();
+
+	void draw(Graphics2D g);
 
 }

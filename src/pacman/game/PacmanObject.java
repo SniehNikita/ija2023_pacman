@@ -1,5 +1,13 @@
 package pacman.game;
 
+import java.awt.Graphics2D;
+import java.awt.Image;
+import java.io.File;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
+
+import pacman.tools.CONST;
 import pacman.tools.CommonField;
 import pacman.tools.CommonField.Direction;
 import pacman.tools.CommonMaze;
@@ -61,5 +69,17 @@ public class PacmanObject implements CommonMazeObject {
 
 	public CommonMaze getMaze() {
 		return existsIn;
+	}
+	
+	
+	@Override
+	public void draw(Graphics2D g) {
+		Image img = null;
+		try {
+			img = ImageIO.read(new File(CONST.PACMAN_PATH));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		g.drawImage(img, this.staysAt.getCol()*CONST.SPRITE_SIZE, this.staysAt.getRow()*CONST.SPRITE_SIZE, CONST.SPRITE_SIZE, CONST.SPRITE_SIZE, null);
 	}
 }

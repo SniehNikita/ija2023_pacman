@@ -1,5 +1,7 @@
 package pacman.game;
 
+import java.awt.Graphics2D;
+
 import pacman.tools.CommonField;
 import pacman.tools.CommonMaze;
 import pacman.tools.CommonMazeObject;
@@ -16,6 +18,16 @@ public class GeneralField implements CommonField {
 			col = j;
 			maze = null;
 		}
+	}
+
+	@Override
+	public int getRow() {
+		return row;
+	}
+
+	@Override
+	public int getCol() {
+		return col;
 	}
 
 	public boolean put(CommonMazeObject obj) {
@@ -56,4 +68,8 @@ public class GeneralField implements CommonField {
 		return false;
 	}
 
+	@Override
+	public void draw(Graphics2D g2d) {
+			
+	}
 }
