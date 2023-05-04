@@ -10,6 +10,7 @@ import javax.swing.JPanel;
 
 import pacman.Main;
 import pacman.tools.CONST;
+import pacman.tools.CommonField.Direction;
 import pacman.tools.CommonMaze;
 import pacman.tools.io.CommonPresenter;
 
@@ -25,6 +26,7 @@ public class GameFrame extends JPanel implements CommonPresenter {
 	private int cols;
 	
 	private CommonMaze maze;
+	KeyboardInput key_input;
 	
 	public GameFrame(CommonMaze maze) {
 		this.rows = maze.numRows();
@@ -35,6 +37,10 @@ public class GameFrame extends JPanel implements CommonPresenter {
 		
 		this.setPreferredSize(new Dimension(frame_width, frame_height));
 		this.setDoubleBuffered(true);
+    	this.setFocusable(true);
+    	
+    	key_input = new KeyboardInput();
+    	this.addKeyListener(key_input);
 	}
 	
 	protected void paintComponent(Graphics g) {
@@ -48,6 +54,20 @@ public class GameFrame extends JPanel implements CommonPresenter {
 		}
 		
 		g2d.dispose();
+	}
+	
+	public void update() {
+		this.repaint();
+		
+		if (key_input.isKeyPressed('W')) {
+			maze.pacmans().get(0).move(Direction.U);
+		} else if (key_input.isKeyPressed('A')) {
+			maze.pacmans().get(0).move(Direction.L);
+		} else if (key_input.isKeyPressed('S')) {
+			maze.pacmans().get(0).move(Direction.D);
+		} else if (key_input.isKeyPressed('D')) {
+			maze.pacmans().get(0).move(Direction.R);
+		} 
 	}
 	
     public static void sleep(int ms) {

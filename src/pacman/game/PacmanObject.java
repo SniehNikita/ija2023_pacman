@@ -103,8 +103,7 @@ public class PacmanObject implements CommonMazeObject {
 	public CommonMaze getMaze() {
 		return existsIn;
 	}
-	
-	
+		
 	@Override
 	public void draw(Graphics2D g) {
 		Image img = null;

@@ -5,7 +5,9 @@ import java.util.logging.Logger;
 
 import javax.swing.JFrame;
 
+import pacman.game.PacmanObject;
 import pacman.io.GameFrame;
+import pacman.io.KeyboardInput;
 import pacman.tools.CommonMaze;
 import pacman.tools.MazeConfigure;
 
@@ -14,7 +16,9 @@ public class GameRunner implements Runnable {
 	private int fps = 30;
 	Thread thread;
 	
-	static GameFrame game_frame;
+	GameFrame game_frame;
+	KeyboardInput key_handler;
+	CommonMaze maze;
 	
     public void main() {
     	
@@ -32,7 +36,7 @@ public class GameRunner implements Runnable {
         cfg.processLine(".XXS....X.");
         cfg.stopReading();
         
-        CommonMaze maze = cfg.createMaze();
+        maze = cfg.createMaze();
         
     	JFrame main_frame = new JFrame();
     	main_frame.setTitle("IJA2023 Pacman");
@@ -45,7 +49,7 @@ public class GameRunner implements Runnable {
     	main_frame.pack();
     	main_frame.setLocationRelativeTo(null);
     	main_frame.setVisible(true);
-    	
+
     	start();
     }
 	
@@ -60,17 +64,16 @@ public class GameRunner implements Runnable {
 	}
 	
 	private void update() {
-		
+		game_frame.update();
 	}
 
 	@Override
 	public void run() {
-		long sleep_time = 1000000/fps;
+		long sleep_time = 1000/fps;
 		
 		while (is_running) {		
 			long start_frame = System.currentTimeMillis();			
-			update();
-			game_frame.repaint();
+			this.update();
 			sleep((int)(sleep_time - (System.currentTimeMillis() - start_frame)));
 		}		
 	}
