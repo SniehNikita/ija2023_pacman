@@ -12,4 +12,5 @@ public interface CommonMaze {
 
 	List<CommonMazeObject> ghosts();
 
+	List<CommonMazeObject> pacmans();
 }

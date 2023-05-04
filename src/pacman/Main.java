@@ -5,6 +5,7 @@
 package pacman;
 
 import java.awt.GridLayout;
+
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFrame;
@@ -12,7 +13,8 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.ImageIcon;
 
-import pacman.tools.MazeConfigure;
+
+import pacman.game.MazeConfigure;
 import pacman.tools.CommonField;
 import pacman.tools.CommonMaze;
 import pacman.tools.CommonMazeObject;
@@ -30,17 +32,17 @@ public class Main {
     public static void main(String... args) {
         MazeConfigure cfg = new MazeConfigure();
         cfg.startReading(10, 10);
-        cfg.processLine("..G.......");
-        cfg.processLine(".XXXXXXXX.");
-        cfg.processLine(".X........");
-        cfg.processLine(".X.XXX.XXX");
-        cfg.processLine(".X...X.X..");
-        cfg.processLine(".XXX.X.X..");
-        cfg.processLine(".X...X.X..");
-        cfg.processLine("....X..X..");
-        cfg.processLine(".XX.X.X...");
-        cfg.processLine(".XX.....X.");
-        cfg.processLine(".S..XXX.X.");
+        cfg.processLine("..........");
+        cfg.processLine("..........");
+        cfg.processLine("..........");
+        cfg.processLine("..........");
+        cfg.processLine(".....K....");
+        cfg.processLine("....KSK...");
+        cfg.processLine(".....K....");
+        cfg.processLine(".....T....");
+        cfg.processLine("..........");
+        cfg.processLine("..........");
+        cfg.processLine("..........");
         cfg.stopReading();
         
         CommonMaze maze = cfg.createMaze();
@@ -71,7 +73,24 @@ public class Main {
         	
         }
         
+        CommonMazeObject obj = maze.pacmans().get(0);
+        obj.move(CommonField.Direction.L);
+        obj.move(CommonField.Direction.R);
+        obj.move(CommonField.Direction.R);
+        obj.move(CommonField.Direction.L);
+        obj.move(CommonField.Direction.D);
+        obj.move(CommonField.Direction.D);
+        obj.move(CommonField.Direction.U);
+        obj.move(CommonField.Direction.U);
+        obj.move(CommonField.Direction.U);
+        obj.move(CommonField.Direction.U);
+        obj.move(CommonField.Direction.D);
+        obj.move(CommonField.Direction.D);
+        obj.move(CommonField.Direction.D);
+        obj.move(CommonField.Direction.D);
+        
         frame.setVisible(true);
+        
     }
         /*
         MazePresenter presenter = new MazePresenter(maze);

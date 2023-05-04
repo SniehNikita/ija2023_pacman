@@ -39,11 +39,44 @@ public class PacmanObject implements CommonMazeObject {
 			((PathField) staysAt).remove(this);
 			staysAt = staysAt.nextField(u);
 			((PathField) staysAt).put(this);
+			collectKey(staysAt);
+			finish(staysAt);
 			return true;
 		}
 		return false;
 	}
 
+	public void collectKey(CommonField staysAt) 
+	{
+		for(int i = 0; i < ((PathField) staysAt).objs.size(); i++) 
+		{
+			if(((PathField) staysAt).objs.get(i) instanceof KeyObject) 
+			{
+				System.out.println("Klúč odstránaný " + ((PathField) staysAt).objs.get(i));
+				((GeneralMaze)existsIn).removeKey(((PathField) staysAt).objs.get(i));
+				System.out.println("key list len " + ((GeneralMaze) existsIn).key_list.size());
+			}
+		}
+	}
+	
+	public void finish(CommonField staysAt) 
+	{
+		for(int i = 0; i < ((PathField) staysAt).objs.size(); i++) 
+		{
+			if(((PathField) staysAt).objs.get(i) instanceof TargetObject) 
+			{
+				if(((GeneralMaze) existsIn).key_list.size() == 0) 
+				{
+					System.out.println("Congratulations , you won");
+				}
+				else 
+				{
+					System.out.println("Collect all keys , remaining:" + ((GeneralMaze) existsIn).key_list.size());
+				}
+			}
+		}
+	}
+	
 	@Override
 	public CommonField getField() {
 		return staysAt;

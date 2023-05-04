@@ -58,6 +58,7 @@ public class PathField extends GeneralField {
 		}
 	}
 	
+	
 	@Override
 	public boolean isEmpty() {
 		return objs.isEmpty();

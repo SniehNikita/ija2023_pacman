@@ -16,6 +16,7 @@ public class GeneralMaze implements CommonMaze {
 
 	private List<CommonMazeObject> pacman_list;
 	private List<CommonMazeObject> ghost_list;
+	public List<CommonMazeObject> key_list;
 	
 	public GeneralMaze(int rows, int cols) {
 		this.maze = new GeneralField[rows][cols];
@@ -23,6 +24,7 @@ public class GeneralMaze implements CommonMaze {
 		this.cols = cols;
 		pacman_list = new ArrayList<CommonMazeObject>();
 		ghost_list = new ArrayList<CommonMazeObject>();
+		key_list = new ArrayList<CommonMazeObject>();
 	}
 	
 	@Override
@@ -36,6 +38,10 @@ public class GeneralMaze implements CommonMaze {
 	@Override
 	public List<CommonMazeObject> ghosts() {
 		return new ArrayList<CommonMazeObject>(ghost_list);
+	}
+	
+	public List<CommonMazeObject> pacmans() {
+		return new ArrayList<CommonMazeObject>(pacman_list);
 	}
 
 	@Override
@@ -65,6 +71,40 @@ public class GeneralMaze implements CommonMaze {
 			return false;
 		}
 		this.maze[r][c].put(ghost);
+		return true;
+	}
+	
+	public boolean spawnKey(int r, int c) 
+	{
+		KeyObject key = new KeyObject(getField(r,c), this);
+		if (r < 0 || c < 0 || r > rows-1 || c > cols-1) {
+			return false;
+		}
+		key_list.add(key);
+		this.maze[r][c].put(key);
+		return true;
+	}
+	
+	public boolean removeKey(CommonMazeObject key) 
+	{
+		for(int i = 0; i < key_list.size(); i++) 
+		{
+			if(key_list.get(i) == key) 
+			{
+				key_list.remove(i);
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	public boolean spawnTarget(int r, int c) 
+	{
+		TargetObject target = new TargetObject(getField(r,c), this);
+		if (r < 0 || c < 0 || r > rows-1 || c > cols-1) {
+			return false;
+		}
+		this.maze[r][c].put(target);
 		return true;
 	}
 	
