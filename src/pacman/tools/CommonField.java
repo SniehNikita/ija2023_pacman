@@ -1,5 +1,7 @@
 package pacman.tools;
 
+import java.awt.Graphics2D;
+
 public interface CommonField {
 
 	public enum Direction {
@@ -16,4 +18,9 @@ public interface CommonField {
 
 	boolean contains(CommonMazeObject obj);
 
+	int getRow();
+
+	int getCol();
+
+	void draw(Graphics2D g2d);
 }

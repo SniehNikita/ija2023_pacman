@@ -39,7 +39,8 @@ public class GeneralMaze implements CommonMaze {
 	public List<CommonMazeObject> ghosts() {
 		return new ArrayList<CommonMazeObject>(ghost_list);
 	}
-	
+
+	@Override
 	public List<CommonMazeObject> pacmans() {
 		return new ArrayList<CommonMazeObject>(pacman_list);
 	}

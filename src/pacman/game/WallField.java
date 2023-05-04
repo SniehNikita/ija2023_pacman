@@ -1,5 +1,13 @@
 package pacman.game;
 
+import java.awt.Graphics2D;
+import java.awt.Image;
+import java.io.File;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
+
+import pacman.tools.CONST;
 import pacman.tools.CommonMazeObject;
 
 public class WallField extends GeneralField{
@@ -36,5 +44,17 @@ public class WallField extends GeneralField{
 		} else {
 			return false;
 		}		
+	}
+	
+	
+	@Override
+	public void draw(Graphics2D g) {
+		Image img = null;
+		try {
+			img = ImageIO.read(new File(CONST.WALLFIELD_PATH));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		g.drawImage(img, this.getCol()*64, this.getRow()*64, 64, 64, null);
 	}
 }
