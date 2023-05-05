@@ -2,20 +2,15 @@ package pacman.game;
 
 import java.awt.Graphics2D;
 
+import pacman.tools.CONST;
 import pacman.tools.CommonField;
 import pacman.tools.CommonMaze;
 import pacman.tools.CommonField.Direction;
-import pacman.tools.CommonMazeObject;
 
-public class TargetObject implements CommonMazeObject{
-
-	private CommonField staysAt = null;
-	private CommonMaze existsIn = null;
+public class TargetObject extends GeneralObject {
 	
-	public TargetObject(CommonField field, CommonMaze maze)
-	{
-		staysAt = field;
-		existsIn = maze;
+	public TargetObject(CommonField field, CommonMaze maze) {
+		super(field, maze);
 	}
 	
 	@Override
@@ -29,11 +24,6 @@ public class TargetObject implements CommonMazeObject{
 	}
 
 	@Override
-	public CommonField getField() {
-		return staysAt;
-	}
-
-	@Override
 	public int getLives() {
 		return 0;
 	}
@@ -42,15 +32,12 @@ public class TargetObject implements CommonMazeObject{
 	public boolean isPacman() {
 		return false;
 	}
-	
-	public CommonMaze getMaze() {
-		return existsIn;
-	}
-
 	@Override
 	public void draw(Graphics2D g) {
-		// TODO Auto-generated method stub
+		int x = this.getField().getCol()*CONST.SPRITE_SIZE;
+		int y = this.getField().getRow()*CONST.SPRITE_SIZE;
 		
+		g.drawImage(CONST.DOOR_IMG, x, y, CONST.SPRITE_SIZE, CONST.SPRITE_SIZE, null);
 	}
 
 }

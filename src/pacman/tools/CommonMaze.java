@@ -15,5 +15,9 @@ public interface CommonMaze {
 
 	List<CommonMazeObject> pacmans();
 
+	List<CommonMazeObject> keys();
+
+	List<CommonMazeObject> targets();
+
 	void draw(Graphics2D g);
 }

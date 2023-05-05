@@ -32,8 +32,8 @@ public class GameFrame extends JPanel implements CommonPresenter {
 		this.rows = maze.numRows();
 		this.cols = maze.numCols();
 		this.maze = maze;
-		frame_width = rows * CONST.SPRITE_SIZE;
-		frame_height = cols * CONST.SPRITE_SIZE;
+		frame_width = cols * CONST.SPRITE_SIZE;
+		frame_height = rows * CONST.SPRITE_SIZE;
 		
 		this.setPreferredSize(new Dimension(frame_width, frame_height));
 		this.setDoubleBuffered(true);
@@ -62,6 +62,9 @@ public class GameFrame extends JPanel implements CommonPresenter {
 		} else if (key_input.isKeyPressed('D')) {
 			maze.pacmans().get(0).move(Direction.R);
 		} 
+		for (int i = 0; i < maze.ghosts().size(); i++) {
+			maze.ghosts().get(i).move(null);
+		}
 		
 		this.repaint();
 	}

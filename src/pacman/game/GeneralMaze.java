@@ -18,6 +18,7 @@ public class GeneralMaze implements CommonMaze {
 	private List<CommonMazeObject> pacman_list;
 	private List<CommonMazeObject> ghost_list;
 	public List<CommonMazeObject> key_list;
+	public List<CommonMazeObject> target_list;
 	
 	public GeneralMaze(int rows, int cols) {
 		this.maze = new GeneralField[rows][cols];
@@ -26,6 +27,7 @@ public class GeneralMaze implements CommonMaze {
 		pacman_list = new ArrayList<CommonMazeObject>();
 		ghost_list = new ArrayList<CommonMazeObject>();
 		key_list = new ArrayList<CommonMazeObject>();
+		target_list = new ArrayList<CommonMazeObject>();
 	}
 	
 	@Override
@@ -44,6 +46,16 @@ public class GeneralMaze implements CommonMaze {
 	@Override
 	public List<CommonMazeObject> pacmans() {
 		return new ArrayList<CommonMazeObject>(pacman_list);
+	}
+
+	@Override
+	public List<CommonMazeObject> keys() {
+		return new ArrayList<CommonMazeObject>(key_list);
+	}
+
+	@Override
+	public List<CommonMazeObject> targets() {
+		return new ArrayList<CommonMazeObject>(target_list);
 	}
 
 	@Override
@@ -106,6 +118,7 @@ public class GeneralMaze implements CommonMaze {
 		if (r < 0 || c < 0 || r > rows-1 || c > cols-1) {
 			return false;
 		}
+		target_list.add(target);
 		this.maze[r][c].put(target);
 		return true;
 	}
@@ -150,6 +163,12 @@ public class GeneralMaze implements CommonMaze {
 		}
 		for (int i = 0; i < this.ghosts().size(); i++) {
 			this.ghosts().get(i).draw(g);
+		}
+		for (int i = 0; i < this.keys().size(); i++) {
+			this.keys().get(i).draw(g);
+		}
+		for (int i = 0; i < this.targets().size(); i++) {
+			this.targets().get(i).draw(g);
 		}
 		
 	}

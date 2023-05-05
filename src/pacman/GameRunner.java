@@ -5,7 +5,6 @@ import java.util.logging.Logger;
 
 import javax.swing.JFrame;
 
-import pacman.game.PacmanObject;
 import pacman.io.GameFrame;
 import pacman.io.KeyboardInput;
 import pacman.tools.CONST;
@@ -23,17 +22,17 @@ public class GameRunner implements Runnable {
     public void main() {
     	CONST.readImg();
         MazeConfigure cfg = new MazeConfigure();
-        cfg.startReading(10, 10);
-        cfg.processLine("..G.......");
-        cfg.processLine(".XXXXXXXX.");
-        cfg.processLine(".X........");
-        cfg.processLine(".X.XXX.XXX");
-        cfg.processLine(".X...X.X..");
-        cfg.processLine(".XXX.X.X..");
-        cfg.processLine(".X.....X..");
-        cfg.processLine("....X..X..");
-        cfg.processLine(".XX.X.X...");
-        cfg.processLine(".XXS....X.");
+        cfg.startReading(10, 12);
+        cfg.processLine(".XK..XXXGXX.");
+        cfg.processLine("...XXX.X.X..");
+        cfg.processLine(".X.....X.X.X");
+        cfg.processLine("XXX.XX.XXX.X");
+        cfg.processLine("..X..X.X.G..");
+        cfg.processLine("X.X.XX...XX.");
+        cfg.processLine("....X..X..XX");
+        cfg.processLine(".XXXX.XXX.X.");
+        cfg.processLine("..X....XT...");
+        cfg.processLine("X...XSXXX.XX");
         cfg.stopReading();
         
         maze = cfg.createMaze();

@@ -5,6 +5,7 @@ import pacman.tools.CONST;
 import pacman.tools.CommonField;
 import pacman.tools.CommonField.Direction;
 import pacman.tools.CommonMaze;
+import pacman.tools.Direct;
 
 public class PacmanObject extends GeneralObject {
 
@@ -31,25 +32,14 @@ public class PacmanObject extends GeneralObject {
 		}
 	}
 	
-	private int dirAngle(Direction d1, Direction d2) {
-		if (d1 == d2) {
-			return 0;
-		}
-		if ((d1 == Direction.U && d2 == Direction.D) ||
-			(d1 == Direction.D && d2 == Direction.U) ||
-			(d1 == Direction.L && d2 == Direction.R) ||
-			(d1 == Direction.R && d2 == Direction.L)) {
-			return 180;
-		}
-		return 90;
-	}
+
 
 	@Override
 	public boolean move(Direction d) {
 		Direction l = last_direction;
 		float offset = (float)CONST.PACMAN_SPEED / (float)CONST.FPS;
 		
-		if (this.canMove(d) && (dirAngle(d,l) == 0 || dirAngle(d,l) == 180)) {
+		if (this.canMove(d) && (Direct.angle(d,l) == 0 || Direct.angle(d,l) == 180)) {
 			// If can move and doesn't change direction or go opposite
 			
 			if (d == Direction.D || d == Direction.R) { 
@@ -57,7 +47,7 @@ public class PacmanObject extends GeneralObject {
 			} else {
 				pos_offset -= offset;	
 			}
-		} else if (!this.canMove(d) && (dirAngle(d,l) == 0 || dirAngle(d,l) == 180)) {
+		} else if (!this.canMove(d) && (Direct.angle(d,l) == 0 || Direct.angle(d,l) == 180)) {
 			// If can't move and doesn't change direction or go opposite
 			
 			if (d == Direction.D || d == Direction.R) { 
@@ -75,7 +65,7 @@ public class PacmanObject extends GeneralObject {
 			}
 			
 			return false;
-		} else if (this.canMove(d) && dirAngle(d,l) == 90) {
+		} else if (this.canMove(d) && Direct.angle(d,l) == 90) {
 			// If can move and turns
 			
 			if (Math.abs(pos_offset) < 0.02) {
@@ -96,7 +86,7 @@ public class PacmanObject extends GeneralObject {
 					pos_offset -= offset;	
 				}
 			}
-		} else if (!this.canMove(d) && dirAngle(d,l) == 90) {
+		} else if (!this.canMove(d) && Direct.angle(d,l) == 90) {
 			// Can't turn -> go previous direction
 			d = l;
 			if (this.canMove(d)) {

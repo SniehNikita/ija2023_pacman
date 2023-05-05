@@ -37,7 +37,11 @@ public class MazeConfigure {
 					case 'S': 	((GeneralMaze) maze).putPath(curLine, i+1);
 							  	((GeneralMaze) maze).spawnPacman(curLine, i+1); break;
 					case 'G':	((GeneralMaze) maze).putPath(curLine, i+1);
-				  				((GeneralMaze) maze).spawnGhost(curLine, i+1);break;
+	  							((GeneralMaze) maze).spawnGhost(curLine, i+1);break;
+					case 'K':	((GeneralMaze) maze).putPath(curLine, i+1);
+	  							((GeneralMaze) maze).spawnKey(curLine, i+1);break;
+					case 'T':	((GeneralMaze) maze).putPath(curLine, i+1);
+	  							((GeneralMaze) maze).spawnTarget(curLine, i+1);break;
 					default : /* TODO ERRHANDLE */ break;
 				}
 			}
