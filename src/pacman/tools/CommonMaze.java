@@ -1,5 +1,6 @@
 package pacman.tools;
 
+import java.awt.Graphics2D;
 import java.util.List;
 
 public interface CommonMaze {
@@ -13,4 +14,6 @@ public interface CommonMaze {
 	List<CommonMazeObject> ghosts();
 
 	List<CommonMazeObject> pacmans();
+
+	void draw(Graphics2D g);
 }

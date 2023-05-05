@@ -14,13 +14,17 @@ public class KeyboardInput implements KeyListener {
 	@Override
 	public void keyPressed(KeyEvent e) {
 		char key = e.getKeyChar();
-		keys_pressed[Character.toUpperCase(key) - 'A'] = true;
+		if (Character.toUpperCase(key) >= 'A' && Character.toUpperCase(key) <= 'Z') {
+			keys_pressed[Character.toUpperCase(key) - 'A'] = true;
+		}		
 	}
 
 	@Override
 	public void keyReleased(KeyEvent e) {
 		char key = e.getKeyChar();
-		keys_pressed[Character.toUpperCase(key) - 'A'] = false;		
+		if (Character.toUpperCase(key) >= 'A' && Character.toUpperCase(key) <= 'Z') {
+			keys_pressed[Character.toUpperCase(key) - 'A'] = false;
+		}		
 	}
 	
 	public boolean isKeyPressed(char key) {

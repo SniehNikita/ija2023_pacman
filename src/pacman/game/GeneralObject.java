@@ -9,28 +9,36 @@ import pacman.tools.CommonMazeObject;
 
 public class GeneralObject implements CommonMazeObject {
 	
-	private CommonField staysAt = null;
-	private CommonMaze existsIn = null;
+	private CommonField pos_field;
+	private CommonMaze pos_maze;
+	protected float pos_offset = 0;
+	protected Direction last_direction;
 	
 	public GeneralObject(CommonField field, CommonMaze maze) {
-		staysAt = field;
-		existsIn = maze;
+		pos_field = field;
+		pos_maze = maze;
+		pos_offset = 0;
+		last_direction = Direction.U;
 	}	
 	
 	public boolean canMove(Direction r) {		
-		CommonField next = staysAt.nextField(r);
+		CommonField next = this.getField().nextField(r);
 		if (next != null && next.canMove()) {
 			return true;
 		}
 		return false;
 	}
 	
+	public void setField(CommonField field) {
+		this.pos_field = field;
+	}
+	
 	public CommonField getField() {
-		return staysAt;
+		return pos_field;
 	}
 	
 	public CommonMaze getMaze() {
-		return existsIn;
+		return pos_maze;
 	}
 	
 	public int getLives() {
@@ -39,9 +47,9 @@ public class GeneralObject implements CommonMazeObject {
 
 	public boolean move(Direction u) {
 		if (this.canMove(u)) {
-			((PathField) staysAt).remove(this);
-			staysAt = staysAt.nextField(u);
-			((PathField) staysAt).put(this);
+			((PathField) this.getField()).remove(this);
+			this.setField(this.getField().nextField(u));
+			((PathField) this.getField()).put(this);
 			return true;
 		}
 		return false;

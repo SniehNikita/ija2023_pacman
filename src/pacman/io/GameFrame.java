@@ -47,18 +47,12 @@ public class GameFrame extends JPanel implements CommonPresenter {
 		super.paintComponent(g);
 		Graphics2D g2d = (Graphics2D) g;
 		
-		for (int i = 0; i < rows; i++) {
-			for (int j = 0; j < cols; j++) {
-				maze.getField(i, j).draw(g2d);
-			}
-		}
+		maze.draw(g2d);
 		
 		g2d.dispose();
 	}
 	
-	public void update() {
-		this.repaint();
-		
+	public void update() {		
 		if (key_input.isKeyPressed('W')) {
 			maze.pacmans().get(0).move(Direction.U);
 		} else if (key_input.isKeyPressed('A')) {
@@ -68,6 +62,8 @@ public class GameFrame extends JPanel implements CommonPresenter {
 		} else if (key_input.isKeyPressed('D')) {
 			maze.pacmans().get(0).move(Direction.R);
 		} 
+		
+		this.repaint();
 	}
 	
     public static void sleep(int ms) {

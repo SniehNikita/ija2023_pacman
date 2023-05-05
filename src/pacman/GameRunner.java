@@ -8,12 +8,12 @@ import javax.swing.JFrame;
 import pacman.game.PacmanObject;
 import pacman.io.GameFrame;
 import pacman.io.KeyboardInput;
+import pacman.tools.CONST;
 import pacman.tools.CommonMaze;
 import pacman.tools.MazeConfigure;
 
 public class GameRunner implements Runnable {
 	private boolean is_running = false;
-	private int fps = 30;
 	Thread thread;
 	
 	GameFrame game_frame;
@@ -21,7 +21,7 @@ public class GameRunner implements Runnable {
 	CommonMaze maze;
 	
     public void main() {
-    	
+    	CONST.readImg();
         MazeConfigure cfg = new MazeConfigure();
         cfg.startReading(10, 10);
         cfg.processLine("..G.......");
@@ -69,7 +69,7 @@ public class GameRunner implements Runnable {
 
 	@Override
 	public void run() {
-		long sleep_time = 1000/fps;
+		long sleep_time = 1000/CONST.FPS;
 		
 		while (is_running) {		
 			long start_frame = System.currentTimeMillis();			

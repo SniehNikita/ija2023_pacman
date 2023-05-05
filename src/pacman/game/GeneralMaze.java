@@ -1,5 +1,6 @@
 package pacman.game;
 
+import java.awt.Graphics2D;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -135,6 +136,22 @@ public class GeneralMaze implements CommonMaze {
 		}	
 		this.maze[r][c] = null;
 		return true;
+	}
+
+	@Override
+	public void draw(Graphics2D g) {
+		for (int i = 0; i < this.numRows(); i++) {
+			for (int j = 0; j < this.numCols(); j++) {
+				this.getField(i,j).draw(g);
+			}
+		}
+		for (int i = 0; i < this.pacmans().size(); i++) {
+			this.pacmans().get(i).draw(g);
+		}
+		for (int i = 0; i < this.ghosts().size(); i++) {
+			this.ghosts().get(i).draw(g);
+		}
+		
 	}
 
 }
