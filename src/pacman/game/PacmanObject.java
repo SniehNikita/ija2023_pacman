@@ -63,6 +63,10 @@ public class PacmanObject extends GeneralObject {
 			pos_offset = 0;
 		} else {
 			((GeneralMaze) this.getMaze()).removePacman(this);	
+			((GeneralMaze) this.getMaze()).getRunner().end(false);
+			if (((GeneralMaze) this.getMaze()).getRecorder() != null) {
+				((GeneralMaze) this.getMaze()).getRecorder().stop();
+			}
 		}
 	}
 	
@@ -77,14 +81,15 @@ public class PacmanObject extends GeneralObject {
 	}
 	
 	public void update() {
-		if (effect_invincible == 0) {
-			for (int i = 0; i < this.getMaze().ghosts().size(); i++) {
-				if (this.checkCollision(this.getMaze().ghosts().get(i))) {
+		for (int i = 0; i < this.getMaze().ghosts().size(); i++) {
+			if (this.checkCollision(this.getMaze().ghosts().get(i))) {
+				if (effect_invincible == 0) {
 					this.die();
-					effect_invincible = 30;
+					effect_invincible = 90;
 				}
 			}
 		}
+		
 		for (int i = 0; i < this.getMaze().keys().size(); i++) {
 			if (this.checkCollision(this.getMaze().keys().get(i))) {
 				((GeneralMaze) this.getMaze()).collectKey(this.getField());
@@ -116,14 +121,28 @@ public class PacmanObject extends GeneralObject {
 			x += pos_offset * (float)CONST.SPRITE_SIZE;
 		}
 		
-		if (this.last_direction == Direction.L || this.last_direction == Direction.D) {
-		    AffineTransform tx = AffineTransform.getScaleInstance(-1, 1);
-		    tx.translate(-CONST.SPRITE_SIZE, 0);
-		    AffineTransformOp op = new AffineTransformOp(tx, AffineTransformOp.TYPE_NEAREST_NEIGHBOR);
-		    
-			g.drawImage(op.filter((BufferedImage) CONST.PACMAN_IMG, null), x, y, CONST.SPRITE_SIZE, CONST.SPRITE_SIZE, null);			
-		} else {
-			g.drawImage(CONST.PACMAN_IMG, x, y, CONST.SPRITE_SIZE, CONST.SPRITE_SIZE, null);
+//		if (this.last_direction == Direction.L || this.last_direction == Direction.D) {
+//		    AffineTransform tx = AffineTransform.getScaleInstance(-1, 1);
+//		    tx.translate(-CONST.SPRITE_SIZE, 0);
+//		    AffineTransformOp op = new AffineTransformOp(tx, AffineTransformOp.TYPE_NEAREST_NEIGHBOR);
+//		    
+//			g.drawImage(op.filter((BufferedImage) CONST.PACMAN_IMG, null), 
+//						CONST.GAME_FRAME_START_X + x, 
+//						CONST.GAME_FRAME_START_Y + y, CONST.SPRITE_SIZE, CONST.SPRITE_SIZE, null);			
+//		} else {
+//			g.drawImage(CONST.PACMAN_IMG,
+//						CONST.GAME_FRAME_START_X + x, 
+//						CONST.GAME_FRAME_START_Y + y, CONST.SPRITE_SIZE, CONST.SPRITE_SIZE, null);		
+//		}
+		
+		g.drawImage(CONST.PACMAN_IMG,
+		CONST.GAME_FRAME_START_X + x, 
+		CONST.GAME_FRAME_START_Y + y, CONST.SPRITE_SIZE, CONST.SPRITE_SIZE, null);		
+		
+		for (int i = 0; i < this.getLives(); i++) {
+			g.drawImage(CONST.HEART_IMG, 
+						CONST.GAME_FRAME_START_X + CONST.SPRITE_SIZE * i, 
+						CONST.GAME_FRAME_START_Y, CONST.SPRITE_SIZE, CONST.SPRITE_SIZE, null);			
 		}
 	}
 }

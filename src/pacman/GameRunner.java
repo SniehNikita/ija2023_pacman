@@ -1,15 +1,20 @@
 package pacman;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.swing.JFrame;
+import javax.swing.JPanel;
 
 import pacman.game.GeneralMaze;
 import pacman.game.MazeRecorder;
 import pacman.io.GameFrame;
 import pacman.io.GameInput;
-import pacman.io.RandomProvider;
+import pacman.io.Menu;
 import pacman.tools.CONST;
 import pacman.tools.CommonMaze;
 import pacman.tools.MazeConfigure;
@@ -24,52 +29,15 @@ public class GameRunner implements Runnable {
 	JFrame main_frame;
 	
 	MazeRecorder mr;
+	MazeConfigure cfg;
+	Menu menu;
 	
     public void main() {
-    	CONST.readImg();
-        MazeConfigure cfg = new MazeConfigure();
-        MazeRecorder rec = new MazeRecorder(this);
-        mr = null;
-        
-        cfg.startReading(10, 12);
-        rec.mazeConfigure("10:12");
-        
-        cfg.processLine("............");
-        rec.mazeConfigure("............");
-        
-        cfg.processLine("............");
-        rec.mazeConfigure("............");
-        
-        cfg.processLine("............");
-        rec.mazeConfigure("............");
-        
-        cfg.processLine("G...........");
-        rec.mazeConfigure("G...........");
-        
-        cfg.processLine("............");
-        rec.mazeConfigure("............");
-        
-        cfg.processLine("............");
-        rec.mazeConfigure("............");
-        
-        cfg.processLine("............");
-        rec.mazeConfigure("............");
-        
-        cfg.processLine("............");
-        rec.mazeConfigure("............");
-        
-        cfg.processLine("............");
-        rec.mazeConfigure("............");
-        
-        cfg.processLine(".SKT........");
-        rec.mazeConfigure(".SKT........");
-        
-        cfg.stopReading();
-        
+    	if (cfg == null) {
+    		this.createDefaultCFG();
+    	}
         maze = cfg.createMaze();
-        
-        ((GeneralMaze) maze).setRecorder(rec);
-        ((GeneralMaze) maze).setRandomProvider(new RandomProvider());
+        ((GeneralMaze) maze).setRunner(this);
         
     	main_frame = new JFrame();
     	main_frame.setTitle("IJA2023 Pacman");
@@ -77,11 +45,19 @@ public class GameRunner implements Runnable {
     	main_frame.setResizable(false);
     	
     	game_frame = new GameFrame(maze);
+    	mr.setKeyListener(game_frame.getKeyInput());
+        mr.is_rec = true;
+        
+        ((GeneralMaze) maze).setRecorder(mr);
     	main_frame.add(game_frame);
     	
     	main_frame.pack();
     	main_frame.setLocationRelativeTo(null);
     	main_frame.setVisible(true);
+    }
+    
+    public void setMenu(Menu menu) {
+    	this.menu = menu;
     }
     
     public void setMazeRecorder(MazeRecorder mr) {
@@ -119,7 +95,9 @@ public class GameRunner implements Runnable {
 	}
 	
 	private void update() {
-		game_frame.update();
+		if (game_frame != null) {
+			game_frame.update();
+		}
 	}
 
 	@Override
@@ -128,11 +106,13 @@ public class GameRunner implements Runnable {
 
 		while (is_running) {		
 			long start_frame = System.currentTimeMillis();
-			if (this.mr != null) {
+			if (this.mr != null && this.mr.is_rec == false) {
 				mr.updateInputs();
 			}
 			this.update();
-			sleep((int)(sleep_time - (System.currentTimeMillis() - start_frame)));
+			if ((sleep_time - (System.currentTimeMillis() - start_frame)) > 0 ) {
+				sleep((int)(sleep_time - (System.currentTimeMillis() - start_frame)));
+			}
 		}		
 	}
 	
@@ -143,4 +123,60 @@ public class GameRunner implements Runnable {
             Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
         }        
     }
+	
+	public void readMaze(File file) {
+		try 
+		{
+	        mr = new MazeRecorder(this);
+			BufferedReader reader = new BufferedReader(new FileReader(file));
+			String line;
+			
+			line = reader.readLine();
+			String[] array = line.split(" ");
+
+			int row = Integer.parseInt(array[0]);
+			int col = Integer.parseInt(array[1]);
+			
+			mr.mazeConfigure(Integer.toString(row) + ":" + Integer.toString(col));
+			CONST.setSizes(row+2, col+2);
+
+			cfg = new MazeConfigure();
+			cfg.startReading(row, col);
+
+			
+			while((line = reader.readLine()) != null)
+			{
+				cfg.processLine(line);
+				mr.mazeConfigure(line);
+			}
+			cfg.stopReading();
+
+			reader.close();
+		}
+		catch(IOException exc)
+		{
+			exc.printStackTrace();
+		}
+	}
+
+	public void createDefaultCFG() {
+		File file = new File(CONST.DEFAULT_MAZE_PATH);
+		this.readMaze(file);
+		
+	}
+
+	public void end(boolean is_win) {
+		this.stop();
+		if (is_win) {
+			this.game_frame.setVisible(false);
+			this.menu.openMenu();
+		} else {
+			this.game_frame.setVisible(false);
+			this.menu.openMenu();			
+		}
+		this.main_frame.dispose();
+		sleep(1000);
+		cfg = null;
+		this.game_frame = null;
+	}
 }

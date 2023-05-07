@@ -97,6 +97,7 @@ public class PathField extends GeneralField {
 	
 	@Override
 	public void draw(Graphics2D g) {
-		g.drawImage(CONST.PATHFIELD_IMG, this.getCol()*CONST.SPRITE_SIZE, this.getRow()*CONST.SPRITE_SIZE, CONST.SPRITE_SIZE, CONST.SPRITE_SIZE, null);
-	}
+		g.drawImage(CONST.PATHFIELD_IMG, CONST.GAME_FRAME_START_X + this.getCol() * CONST.SPRITE_SIZE, 
+				 	CONST.GAME_FRAME_START_Y + this.getRow() * CONST.SPRITE_SIZE, CONST.SPRITE_SIZE, CONST.SPRITE_SIZE, null);
+}
 }

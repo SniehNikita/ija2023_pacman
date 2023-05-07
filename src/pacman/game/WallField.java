@@ -43,6 +43,7 @@ public class WallField extends GeneralField{
 	
 	@Override
 	public void draw(Graphics2D g) {
-		g.drawImage(CONST.WALLFIELD_IMG, this.getCol()*64, this.getRow()*64, 64, 64, null);
+		g.drawImage(CONST.WALLFIELD_IMG, CONST.GAME_FRAME_START_X + this.getCol() * CONST.SPRITE_SIZE, 
+										 CONST.GAME_FRAME_START_Y + this.getRow() * CONST.SPRITE_SIZE, CONST.SPRITE_SIZE, CONST.SPRITE_SIZE, null);
 	}
 }

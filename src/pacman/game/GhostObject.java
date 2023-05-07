@@ -113,16 +113,21 @@ public class GhostObject extends GeneralObject {
 			x += pos_offset * (float)CONST.SPRITE_SIZE;
 		}
 		
-		if (this.last_direction == Direction.L || this.last_direction == Direction.D) {
-		    AffineTransform tx = AffineTransform.getScaleInstance(-1, 1);
-		    tx.translate(-CONST.SPRITE_SIZE, 0);
-		    AffineTransformOp op = new AffineTransformOp(tx, AffineTransformOp.TYPE_NEAREST_NEIGHBOR);
-		    
-			g.drawImage(op.filter((BufferedImage) CONST.GHOST_IMG, null), x, y, CONST.SPRITE_SIZE, CONST.SPRITE_SIZE, null);			
-		} else {
-			g.drawImage(CONST.GHOST_IMG, x, y, CONST.SPRITE_SIZE, CONST.SPRITE_SIZE, null);
-		}
-		
-		g.drawImage(CONST.GHOST_IMG, x, y, CONST.SPRITE_SIZE, CONST.SPRITE_SIZE, null);
+//		if (this.last_direction == Direction.R || this.last_direction == Direction.U) {
+//		    AffineTransform tx = AffineTransform.getScaleInstance(-1, 1);
+//		    tx.translate(-CONST.SPRITE_SIZE, 0);
+//		    AffineTransformOp op = new AffineTransformOp(tx, AffineTransformOp.TYPE_NEAREST_NEIGHBOR);
+//		    
+//			g.drawImage(op.filter((BufferedImage) CONST.GHOST_IMG, null), 
+//						CONST.GAME_FRAME_START_X + x, 
+//						CONST.GAME_FRAME_START_Y + y, CONST.SPRITE_SIZE, CONST.SPRITE_SIZE, null);			
+//		} else {
+//			g.drawImage(CONST.GHOST_IMG,
+//						CONST.GAME_FRAME_START_X + x, 
+//						CONST.GAME_FRAME_START_Y + y, CONST.SPRITE_SIZE, CONST.SPRITE_SIZE, null);		
+//		}
+		g.drawImage(CONST.GHOST_IMG,
+				CONST.GAME_FRAME_START_X + x, 
+				CONST.GAME_FRAME_START_Y + y, CONST.SPRITE_SIZE, CONST.SPRITE_SIZE, null);	
 	}
 }

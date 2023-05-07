@@ -38,7 +38,9 @@ public class KeyObject extends GeneralObject {
 		int x = this.getField().getCol()*CONST.SPRITE_SIZE;
 		int y = this.getField().getRow()*CONST.SPRITE_SIZE;
 		
-		g.drawImage(CONST.KEY_IMG, x, y, CONST.SPRITE_SIZE, CONST.SPRITE_SIZE, null);
+		g.drawImage(CONST.KEY_IMG, 
+					CONST.GAME_FRAME_START_X + x, 
+					CONST.GAME_FRAME_START_Y + y, CONST.SPRITE_SIZE, CONST.SPRITE_SIZE, null);
 	}
 
 }

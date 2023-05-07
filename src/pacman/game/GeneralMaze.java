@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
 
+import pacman.GameRunner;
 import pacman.tools.CommonField;
 import pacman.tools.CommonMaze;
 import pacman.tools.CommonMazeObject;
@@ -23,7 +24,7 @@ public class GeneralMaze implements CommonMaze {
 	public List<CommonMazeObject> target_list;
 	
 	private MazeRecorder rec;
-	private CommonRandom random;
+	private GameRunner gr;
 	
 	private Stack<Integer> move_seeds;
 	
@@ -51,12 +52,12 @@ public class GeneralMaze implements CommonMaze {
 		}
 	}
 	
-	public void setRandomProvider(CommonRandom random) {
-		this.random = random;
+	public void setRunner(GameRunner gr) {
+		this.gr = gr;
 	}
 	
-	public int getRandomNumber(int min, int max) {
-		return random.getRandomNumber(min, max);
+	public GameRunner getRunner() {
+		return this.gr;
 	}
 	
 	public void setRecorder(MazeRecorder rec) {
@@ -250,7 +251,7 @@ public class GeneralMaze implements CommonMaze {
 			if (this.getRecorder() != null) {
 				this.getRecorder().stop();
 			}
-			System.out.printf("Win Win\n");
+			this.gr.end(true);
 		} else {
 			System.out.printf("Collect all keys\n");			
 		}

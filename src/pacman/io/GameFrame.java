@@ -33,14 +33,15 @@ public class GameFrame extends JPanel {
 		this.rows = maze.numRows();
 		this.cols = maze.numCols();
 		this.maze = maze;
-		frame_width = cols * CONST.SPRITE_SIZE;
-		frame_height = rows * CONST.SPRITE_SIZE;
+		frame_width = CONST.SCREEN_WIDTH;
+		frame_height = CONST.SCREEN_HEIGHT;
 		
 		this.setPreferredSize(new Dimension(frame_width, frame_height));
 		this.setDoubleBuffered(true);
     	this.setFocusable(true);
     	
     	key_input = new GameInput();
+    	key_input.setSim(false);
     	this.addKeyListener(key_input);
     	
     	if (((GeneralMaze) maze).getRecorder() != null) {

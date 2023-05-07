@@ -1,6 +1,7 @@
 package pacman.tools;
 
 import pacman.game.GeneralMaze;
+import pacman.game.MazeRecorder;
 
 public class MazeConfigure {
 		
@@ -8,6 +9,11 @@ public class MazeConfigure {
 	
 	private int curLine = 0;
 	private boolean isReading = false;
+	private MazeRecorder mr;
+	
+	public void setMazeRecorder(MazeRecorder mr) {
+		this.mr = mr;
+	}
 
 	public void startReading(int rows, int cols) {
 		if (!isReading) {
@@ -42,13 +48,11 @@ public class MazeConfigure {
 	  							((GeneralMaze) maze).spawnKey(curLine, i+1);break;
 					case 'T':	((GeneralMaze) maze).putPath(curLine, i+1);
 	  							((GeneralMaze) maze).spawnTarget(curLine, i+1);break;
-					default : /* TODO ERRHANDLE */ break;
+					default : break;
 				}
 			}
 			curLine++;
-		} else {
-			// TODO ERRHANDLE
-		} 
+		}
 	}
 
 	public void stopReading() {
@@ -76,6 +80,8 @@ public class MazeConfigure {
 				}
 			}
 		}
+		
+		((GeneralMaze) maze).setRecorder(mr);
 		
 		return maze;
 	}

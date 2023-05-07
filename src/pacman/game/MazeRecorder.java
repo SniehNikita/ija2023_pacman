@@ -6,16 +6,11 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.nio.CharBuffer;
-
 import pacman.GameRunner;
 import pacman.io.GameFrame;
 import pacman.io.GameInput;
-import pacman.io.RandomProvider;
-import pacman.io.SimulatedRandomProvider;
 import pacman.tools.CONST;
 import pacman.tools.MazeConfigure;
-import pacman.tools.CommonField.Direction;
 import pacman.tools.CommonMaze;
 import pacman.tools.CommonRandom;
 
@@ -35,6 +30,8 @@ public class MazeRecorder {
 	private GameRunner gr;
 	private CommonMaze maze;
 	
+	public boolean is_rec;
+	
 	public MazeRecorder(GameInput key_input, GameRunner gr) {
 		log_buffer = new String();
 		frame_num = 0;
@@ -43,7 +40,6 @@ public class MazeRecorder {
 		is_left = false;
 		is_right = false;
 		ghost_seeds = new int[CONST.MAX_GHOST_NUM];
-    	rand = new RandomProvider();
     	this.gr = gr;
     	gr.setMazeRecorder(this);
 		for (int i=0; i<CONST.MAX_GHOST_NUM; i++) { ghost_seeds[i] = -1; }
@@ -62,14 +58,14 @@ public class MazeRecorder {
 		this(null, null);
 	}
 	
-	public void rerun(String filename) {
+	public void rerun() {
 		MazeConfigure cfg = new MazeConfigure();
 	    BufferedReader reader = null;
 
 	    gr.main();
 
 	    try {
-			reader = new BufferedReader(new FileReader(filename));
+			reader = new BufferedReader(new FileReader("replay_log.txt"));
 		} catch (FileNotFoundException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
@@ -91,6 +87,7 @@ public class MazeRecorder {
 				}
 			}
 			cols = Integer.parseInt(str);
+			CONST.setSizes(rows+2, cols+2);
 			cfg.startReading(rows, cols);
 			for (int i = 0; i < rows; i++) {
 				str = reader.readLine();
@@ -111,13 +108,13 @@ public class MazeRecorder {
         maze = cfg.createMaze();
         ((GeneralMaze) maze).removeRecorder();
         gr.setMaze(maze);
+        ((GeneralMaze) maze).setRunner(gr);
         
         GameFrame gf = new GameFrame(maze);
     	gr.setGameFrame(gf);
     	
     	key_input = gf.getKeyInput();
-    	
-        ((GeneralMaze) maze).setRandomProvider(rand);
+    	key_input.setSim(true);
 
         gr.getMainFrame().remove(gr.getGameFrame());
         gr.setGameFrame(gf);
@@ -134,17 +131,13 @@ public class MazeRecorder {
 		int i = 0;
 		int log_fr_num = 0;
 
-//		System.out.printf("> %d\n", frame_num);
 		while (i < log_buffer.length()) {
 			log_fr_num = 0;
 			i = 0;
 			while (i < log_buffer.length() && log_buffer.charAt(i) != ':') {
-//				System.out.printf("%d-%d-%c ", Character.getNumericValue(log_buffer.charAt(i)),frame_num,log_buffer.charAt(i));
 				log_fr_num = log_fr_num * 10 + Character.getNumericValue(log_buffer.charAt(i));
 				i++;
 			}
-//			System.out.printf("\n");
-//			System.out.printf("> %d:%d\n%s\n", frame_num, log_fr_num, log_buffer);
 			if (log_fr_num <= frame_num) {
 				i++;
 				if (log_buffer.charAt(i) == 'g') {
@@ -197,7 +190,7 @@ public class MazeRecorder {
 	    BufferedWriter writer;
 	    writer = null;
 		try {
-			writer = new BufferedWriter(new FileWriter("filename.txt"));
+			writer = new BufferedWriter(new FileWriter("replay_log.txt"));
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -254,7 +247,5 @@ public class MazeRecorder {
 		if (key_input.isKeyPressed(CONST.RIGHT_KEY)) {
 			if (is_right == false) { is_right = true; log_buffer += Integer.toString(frame_num) + ":i:d:R\n"; }
 		} else if (is_right == true) { is_right = false; log_buffer += Integer.toString(frame_num) + ":i:u:R\n"; }
-		
-		System.out.println(log_buffer);
 	}
 }
