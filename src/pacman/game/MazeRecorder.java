@@ -12,7 +12,6 @@ import pacman.io.GameInput;
 import pacman.tools.CONST;
 import pacman.tools.MazeConfigure;
 import pacman.tools.CommonMaze;
-import pacman.tools.CommonRandom;
 
 public class MazeRecorder {
 	
@@ -26,7 +25,6 @@ public class MazeRecorder {
 	private boolean is_left;
 	private boolean is_right;
 	
-	private CommonRandom rand;
 	private GameRunner gr;
 	private CommonMaze maze;
 	

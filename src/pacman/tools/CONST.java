@@ -6,7 +6,7 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 
 public final class CONST {
-	public static final int FPS = 30;
+	public static final int FPS = 60;
 	public static final int PACMAN_SPEED = 2; // tiles per second
 	public static final int GHOST_SPEED = 2; // tiles per second
 	public static final int MAX_GHOST_NUM = 512;

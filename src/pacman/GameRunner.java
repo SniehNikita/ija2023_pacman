@@ -8,8 +8,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.swing.JFrame;
-import javax.swing.JPanel;
-
 import pacman.game.GeneralMaze;
 import pacman.game.MazeRecorder;
 import pacman.io.GameFrame;

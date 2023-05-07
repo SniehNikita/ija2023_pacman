@@ -9,7 +9,6 @@ import pacman.GameRunner;
 import pacman.tools.CommonField;
 import pacman.tools.CommonMaze;
 import pacman.tools.CommonMazeObject;
-import pacman.tools.CommonRandom;
 
 public class GeneralMaze implements CommonMaze {
 	

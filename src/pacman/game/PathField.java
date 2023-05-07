@@ -45,15 +45,6 @@ public class PathField extends GeneralField {
 		return false;
 	}
 	
-	private boolean isGhost() {
-		for (int i = 0; i < objs.size(); i++) {
-			if (objs.get(i) instanceof GhostObject) {
-				return true;
-			}
-		}
-		return false;
-	}
-	
 	@Override
 	public boolean isEmpty() {
 		return objs.isEmpty();

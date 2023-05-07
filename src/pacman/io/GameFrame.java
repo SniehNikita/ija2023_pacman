@@ -23,15 +23,10 @@ public class GameFrame extends JPanel {
 	private int frame_width;
 	private int frame_height;
 	
-	private int rows;
-	private int cols;
-	
 	private CommonMaze maze;
 	GameInput key_input;
 	
 	public GameFrame(CommonMaze maze) {
-		this.rows = maze.numRows();
-		this.cols = maze.numCols();
 		this.maze = maze;
 		frame_width = CONST.SCREEN_WIDTH;
 		frame_height = CONST.SCREEN_HEIGHT;

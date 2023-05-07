@@ -1,6 +1,5 @@
 package pacman.game;
 
-import pacman.tools.CommonField;
 import pacman.tools.CommonMaze;
 
 public class MazeConfigure {

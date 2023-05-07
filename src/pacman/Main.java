@@ -4,7 +4,6 @@
  */
 package pacman;
 
-import pacman.game.MazeRecorder;
 import pacman.io.Menu;
 import pacman.tools.CONST;
 
