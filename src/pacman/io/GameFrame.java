@@ -16,7 +16,7 @@ import pacman.tools.CommonField.Direction;
 import pacman.tools.CommonMaze;
 
 /*
- * 
+ * d
  */
 @SuppressWarnings("serial")
 public class GameFrame extends JPanel {

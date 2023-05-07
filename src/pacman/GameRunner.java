@@ -163,8 +163,9 @@ public class GameRunner implements Runnable {
 		
 	}
 
-	public void end(boolean is_win) {
+	public void end(boolean is_win, int count) {
 		this.stop();
+		sleep(1000);
 		if (is_win) {
 			this.game_frame.setVisible(false);
 			this.menu.openMenu();
@@ -172,8 +173,8 @@ public class GameRunner implements Runnable {
 			this.game_frame.setVisible(false);
 			this.menu.openMenu();			
 		}
+		this.menu.showCount(count);
 		this.main_frame.dispose();
-		sleep(1000);
 		cfg = null;
 		this.game_frame = null;
 	}

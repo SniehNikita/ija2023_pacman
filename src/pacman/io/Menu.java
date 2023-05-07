@@ -6,6 +6,7 @@ import java.io.File;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import pacman.GameRunner;
@@ -18,6 +19,7 @@ public class Menu implements ActionListener {
     JButton selectmaze;
     JButton replay;
     JButton exit;
+    JLabel score;
     MazeConfigure config = null;
     GameRunner gr;
     JFrame menuframe;
@@ -30,22 +32,26 @@ public class Menu implements ActionListener {
 		menuframe = new JFrame();
 		menuframe.setSize(CONST.MENU_WIDTH,CONST.SCREEN_HEIGHT);
         
+		score = new JLabel();
+		score.setBounds(10, 0, 200, 50);		
+        menuframe.add(score);
+		
         JPanel buttons_panel = new JPanel();
         buttons_panel.setLayout(null);
         buttons_panel.setSize(200, 400);
         
         startgame = new JButton("Start Game");
-        startgame.setBounds(0, 0, 200, 50);
+        startgame.setBounds(0, 50, 200, 50);
         buttons_panel.add(startgame);
         startgame.addActionListener(this);
         
         selectmaze = new JButton("Select Maze");
-        selectmaze.setBounds(0, 50, 200, 50);
+        selectmaze.setBounds(0, 100, 200, 50);
         buttons_panel.add(selectmaze);
         selectmaze.addActionListener(this);
         
         replay = new JButton("Replay");
-        replay.setBounds(0, 100, 200, 50);
+        replay.setBounds(0, 150, 200, 50);
         buttons_panel.add(replay);
         replay.addActionListener(this);
         
@@ -98,6 +104,11 @@ public class Menu implements ActionListener {
 		{
 			System.exit(0);
 		}
+		
+	}
+
+	public void showCount(int count) {
+		score.setText("Your score is: " + Integer.toString(count));
 		
 	}
 }

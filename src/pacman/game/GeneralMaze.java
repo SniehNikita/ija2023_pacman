@@ -242,6 +242,7 @@ public class GeneralMaze implements CommonMaze {
 
 	public void reachTarget(CommonMazeObject pacman, CommonMazeObject target) {
 		if (this.key_list.size() == 0) {
+			int score = ((PacmanObject)this.pacman_list.get(0)).getScore();
 			for (int i = 0; i < this.pacmans().size(); i++) {
 				if (this.pacman_list.get(i) == pacman) {
 					this.pacman_list.remove(i);
@@ -250,7 +251,7 @@ public class GeneralMaze implements CommonMaze {
 			if (this.getRecorder() != null) {
 				this.getRecorder().stop();
 			}
-			this.gr.end(true);
+			this.gr.end(true, score);
 		} else {
 			System.out.printf("Collect all keys\n");			
 		}

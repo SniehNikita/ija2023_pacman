@@ -11,10 +11,12 @@ public class PacmanObject extends GeneralObject {
 	private int lives;
 	private int effect_invincible;
 	private CommonField start_field;
+	private int count;
 		
 	public PacmanObject(CommonField field, CommonMaze maze, int lives) {
 		super(field, maze);
 		this.lives = lives;
+		count = 0;
 		
 		start_field = field;
 		effect_invincible = CONST.FPS * 2;
@@ -27,9 +29,6 @@ public class PacmanObject extends GeneralObject {
 			return true;
 		}
 		return false;
-	}
-
-	public void collectKey(CommonField field) {
 	}
 	
 	public void finish(CommonField field) 
@@ -59,11 +58,15 @@ public class PacmanObject extends GeneralObject {
 			pos_offset = 0;
 		} else {
 			((GeneralMaze) this.getMaze()).removePacman(this);	
-			((GeneralMaze) this.getMaze()).getRunner().end(false);
+			((GeneralMaze) this.getMaze()).getRunner().end(false, this.count);
 			if (((GeneralMaze) this.getMaze()).getRecorder() != null) {
 				((GeneralMaze) this.getMaze()).getRecorder().stop();
 			}
 		}
+	}
+	
+	public int getScore() {
+		return this.count;
 	}
 	
 	@Override
@@ -85,7 +88,6 @@ public class PacmanObject extends GeneralObject {
 				}
 			}
 		}
-		
 		for (int i = 0; i < this.getMaze().keys().size(); i++) {
 			if (this.checkCollision(this.getMaze().keys().get(i))) {
 				((GeneralMaze) this.getMaze()).collectKey(this.getField());
@@ -96,6 +98,10 @@ public class PacmanObject extends GeneralObject {
 				((GeneralMaze) this.getMaze()).reachTarget(this, this.getMaze().targets().get(i));
 			}
 		}
+		
+		if (((PathField) this.getField()).collect()) {
+			count++;
+		} 
 		
 		if (effect_invincible > 0) {
 			effect_invincible--;

@@ -10,9 +10,11 @@ import pacman.tools.CommonMazeObject;
 
 public class PathField extends GeneralField {
 	public List<CommonMazeObject> objs;
+	private boolean is_visited;
 
 	public PathField(int i, int j) {
 		super(i,j);
+		is_visited = false;
 		objs = new ArrayList<CommonMazeObject>();
 	}
 
@@ -21,6 +23,15 @@ public class PathField extends GeneralField {
 			return true;
 		} else {
 			return false;
+		}
+	}
+	
+	public boolean collect() {
+		if (is_visited) {
+			return false;
+		} else {
+			is_visited = true;
+			return true;
 		}
 	}
 
