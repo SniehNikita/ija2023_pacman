@@ -54,18 +54,6 @@ public class PathField extends GeneralField {
 		return false;
 	}
 	
-	private void checkCollisions() {
-		if (isGhost()) {
-			for (int i = 0; i < objs.size(); i++) {
-				if (objs.get(i) instanceof PacmanObject) {
-					PacmanObject p = (PacmanObject) objs.get(i);
-					p.hit();
-				}
-			}
-		}
-	}
-	
-	
 	@Override
 	public boolean isEmpty() {
 		return objs.isEmpty();
@@ -75,7 +63,6 @@ public class PathField extends GeneralField {
 	public boolean put(CommonMazeObject obj) {
 		remove(obj);
 		objs.add(obj);
-		checkCollisions();
 		return true;
 	}
 	

@@ -17,5 +17,10 @@ public interface CommonMazeObject {
 	boolean isPacman();
 
 	void draw(Graphics2D g);
-
+	
+	float getX();
+	
+	float getY();
+	
+	boolean checkCollision(CommonMazeObject obj);
 }

@@ -3,10 +3,12 @@ package pacman.game;
 import java.awt.Graphics2D;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Stack;
 
 import pacman.tools.CommonField;
 import pacman.tools.CommonMaze;
 import pacman.tools.CommonMazeObject;
+import pacman.tools.CommonRandom;
 
 public class GeneralMaze implements CommonMaze {
 	
@@ -20,6 +22,11 @@ public class GeneralMaze implements CommonMaze {
 	public List<CommonMazeObject> key_list;
 	public List<CommonMazeObject> target_list;
 	
+	private MazeRecorder rec;
+	private CommonRandom random;
+	
+	private Stack<Integer> move_seeds;
+	
 	public GeneralMaze(int rows, int cols) {
 		this.maze = new GeneralField[rows][cols];
 		this.rows = rows;
@@ -28,6 +35,40 @@ public class GeneralMaze implements CommonMaze {
 		ghost_list = new ArrayList<CommonMazeObject>();
 		key_list = new ArrayList<CommonMazeObject>();
 		target_list = new ArrayList<CommonMazeObject>();
+		this.rec = null;
+		this.move_seeds = new Stack<Integer>();
+	}
+	
+	public void addSeed(int move_seed) {
+		this.move_seeds.push(move_seed);
+	}
+	
+	public int getSeed() {
+		if (this.move_seeds.size() > 0) {
+			return this.move_seeds.pop();	
+		} else {
+			return -1;
+		}
+	}
+	
+	public void setRandomProvider(CommonRandom random) {
+		this.random = random;
+	}
+	
+	public int getRandomNumber(int min, int max) {
+		return random.getRandomNumber(min, max);
+	}
+	
+	public void setRecorder(MazeRecorder rec) {
+		this.rec = rec;
+	}
+	
+	public void removeRecorder() {
+		this.rec = null;
+	}
+	
+	public MazeRecorder getRecorder() {
+		return this.rec;
 	}
 	
 	@Override
@@ -79,7 +120,7 @@ public class GeneralMaze implements CommonMaze {
 	}
 	
 	public boolean spawnGhost(int r, int c) {
-		GhostObject ghost = new GhostObject(getField(r,c), this);	
+		GhostObject ghost = new GhostObject(getField(r,c), this, this.ghost_list.size());	
 		ghost_list.add(ghost);	
 		if (r < 0 || c < 0 || r > rows-1 || c > cols-1) {
 			return false;
@@ -158,19 +199,61 @@ public class GeneralMaze implements CommonMaze {
 				this.getField(i,j).draw(g);
 			}
 		}
-		for (int i = 0; i < this.pacmans().size(); i++) {
-			this.pacmans().get(i).draw(g);
-		}
-		for (int i = 0; i < this.ghosts().size(); i++) {
-			this.ghosts().get(i).draw(g);
-		}
 		for (int i = 0; i < this.keys().size(); i++) {
 			this.keys().get(i).draw(g);
 		}
 		for (int i = 0; i < this.targets().size(); i++) {
 			this.targets().get(i).draw(g);
 		}
-		
+		for (int i = 0; i < this.pacmans().size(); i++) {
+			this.pacmans().get(i).draw(g);
+		}
+		for (int i = 0; i < this.ghosts().size(); i++) {
+			this.ghosts().get(i).draw(g);
+		}		
 	}
 
+	@Override
+	public void movePacman(CommonMazeObject pacman, CommonField field) {	
+		((PathField) pacman.getField()).remove(pacman);
+		((PathField) field).put(pacman);
+		((GeneralObject) pacman).setField(field);
+	}
+	
+	public void removePacman(CommonMazeObject pacman) {	
+		for (int i = 0; i < this.pacmans().size(); i++) {
+			if (this.pacman_list.get(i) == pacman) {
+				this.pacman_list.remove(i);
+			}
+		}
+		
+		if (this.pacmans().size() == 0) {
+			System.out.printf("Game over\n");
+		}
+	}
+
+	public void collectKey(CommonField field) {
+		for (int i = 0; i < this.keys().size(); i++) {
+			if (this.key_list.get(i).getField() == field) {
+				this.key_list.remove(i);
+			}
+		}		
+	}
+
+	public void reachTarget(CommonMazeObject pacman, CommonMazeObject target) {
+		if (this.key_list.size() == 0) {
+			for (int i = 0; i < this.pacmans().size(); i++) {
+				if (this.pacman_list.get(i) == pacman) {
+					this.pacman_list.remove(i);
+				}
+			}
+			if (this.getRecorder() != null) {
+				this.getRecorder().stop();
+			}
+			System.out.printf("Win Win\n");
+		} else {
+			System.out.printf("Collect all keys\n");			
+		}
+	}
+	
 }

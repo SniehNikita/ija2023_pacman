@@ -11,6 +11,11 @@ public final class CONST {
 	public static final int FPS = 30;
 	public static final int PACMAN_SPEED = 2; // tiles per second
 	public static final int GHOST_SPEED = 2; // tiles per second
+	public static final int MAX_GHOST_NUM = 512;
+	public static char UP_KEY = 'W';
+	public static char DOWN_KEY = 'S';
+	public static char LEFT_KEY = 'A';
+	public static char RIGHT_KEY = 'D';
 	public static final java.net.URL PACMAN_PATH = CONST.class.getResource("/sprites/pacman_0.png");
 	public static final java.net.URL GHOST_PATH = CONST.class.getResource("/sprites/ghost_rl0.png");
 	public static final java.net.URL PATHFIELD_PATH = CONST.class.getResource("/sprites/pathfield_0.png");

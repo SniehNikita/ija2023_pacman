@@ -1,9 +1,13 @@
 package pacman.game;
 
 import java.awt.Graphics2D;
+import java.awt.geom.AffineTransform;
+import java.awt.image.AffineTransformOp;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
 
+import pacman.io.GameInput;
 import pacman.tools.CONST;
 import pacman.tools.CommonField;
 import pacman.tools.CommonMaze;
@@ -12,8 +16,23 @@ import pacman.tools.CommonField.Direction;
 
 public class GhostObject extends GeneralObject {
 		
-	public GhostObject(CommonField field, CommonMaze maze) {
+	private int ghost_num;
+	private int move_seed;
+	private int move_num;
+	
+	public GhostObject(CommonField field, CommonMaze maze, int ghost_num) {
 		super(field, maze);
+		this.ghost_num = ghost_num;
+		move_seed = ((GeneralMaze) this.getMaze()).getSeed();
+		if (move_seed == -1) {
+			move_seed = this.getRandomNumber(10000000, 99999999);
+		}
+		move_num = move_seed % 10 + 1;
+	}
+	
+	public void setDirectionSeed(int seed) {
+		this.move_seed = seed;
+		this.move_num = move_seed % 10 + 1;
 	}
 	
 	@Override
@@ -28,84 +47,7 @@ public class GhostObject extends GeneralObject {
 	@Override
 	public boolean move(Direction d) {
 		d = this.chooseDirection(d);
-		Direction l = last_direction;
-		float offset = (float)CONST.GHOST_SPEED / (float)CONST.FPS;
-		
-		if (this.canMove(d) && (Direct.angle(d,l) == 0 || Direct.angle(d,l) == 180)) {
-			// If can move and doesn't change direction or go opposite
-			
-			if (d == Direction.D || d == Direction.R) { 
-				pos_offset += offset;
-			} else {
-				pos_offset -= offset;	
-			}
-		} else if (!this.canMove(d) && (Direct.angle(d,l) == 0 || Direct.angle(d,l) == 180)) {
-			// If can't move and doesn't change direction or go opposite
-			
-			if (d == Direction.D || d == Direction.R) { 
-				if (pos_offset + offset < -0.001) {
-					pos_offset += offset;
-				} else {
-					pos_offset = 0;
-				}
-			} else if (d == Direction.L || d == Direction.U) {
-				if (pos_offset - offset > 0.001) {
-					pos_offset -= offset;
-				} else {
-					pos_offset = (float) 0;
-				}
-			}
-			
-			return false;
-		} else if (this.canMove(d) && Direct.angle(d,l) == 90) {
-			// If can move and turns
-			
-			if (Math.abs(pos_offset) < 0.02) {
-				// Can turn
-				
-				if (d == Direction.D || d == Direction.R) { 
-					pos_offset = offset;
-				} else {
-					pos_offset = -offset;	
-				}
-			} else {
-				// Go to the center
-				
-				d = l;
-				if (d == Direction.D || d == Direction.R) { 
-					pos_offset += offset;
-				} else {
-					pos_offset -= offset;	
-				}
-			}
-		} else if (!this.canMove(d) && Direct.angle(d,l) == 90) {
-			// Can't turn -> go previous direction
-			d = l;
-			if (this.canMove(d)) {
-				if (d == Direction.D || d == Direction.R) { 
-					pos_offset += offset;
-				} else {
-					pos_offset -= offset;	
-				}
-			} else {
-				return false;
-			}
-		}
-		
-		if (Math.abs(pos_offset) >= 0.5) {
-			((PathField) this.getField()).remove(this);
-			this.setField(this.getField().nextField(d));
-			((PathField) this.getField()).put(this);
-		
-			if (pos_offset < 0) {
-				pos_offset++;
-			} else {
-				pos_offset--;
-			}
-		}
-			
-		last_direction = d;
-		return true;
+		return super.move(d);
 	}
 	
 	private Direction chooseDirection(Direction d) {
@@ -113,25 +55,31 @@ public class GhostObject extends GeneralObject {
 		if (d == null) {
 			d = last_direction;
 		}
-		if (this.canMove(Direct.left(d))) {
-			d_list.add(Direct.left(d));
-		}
-		if (this.canMove(Direct.right(d))) {
-			d_list.add(Direct.right(d));
+		if (pos_offset < 0.1 && pos_offset > -0.1) {
+			if (this.canMove(Direct.left(d))) {
+				d_list.add(Direct.left(d));
+			}
+			if (this.canMove(Direct.right(d))) {
+				d_list.add(Direct.right(d));
+			}
 		}
 		if (this.canMove(d) || pos_offset != 0) {
 			d_list.add(d);
 		}
 		
+
 		if (d_list.size() == 0) {
 			return Direct.back(d);
+		} else if (d_list.size() == 1) {
+			return d_list.get(0);
 		} else {
-			return d_list.get(this.getRandomNumber(0, d_list.size()));
+			int seed = (move_seed / move_num) % 10;
+			move_num = (move_num + 11) % 10000000 + 1;
+			if (((GeneralMaze) this.getMaze()).getRecorder() != null) {
+				((GeneralMaze) this.getMaze()).getRecorder().ghostMovementSeed(ghost_num, move_seed);
+			}
+			return d_list.get(seed & (d_list.size() - 1));
 		}
-	}
-	
-	private int getRandomNumber(int min, int max) {
-	    return (int) ((Math.random() * (max - min)) + min);
 	}
 	
 	@Override
@@ -143,6 +91,10 @@ public class GhostObject extends GeneralObject {
 	public int getLives() {
 		// TODO Exception
 		return 0;
+	}
+	
+	private int getRandomNumber(int min, int max) {
+	    return (int) ((Math.random() * (max - min)) + min);
 	}
 	
 	
@@ -159,6 +111,16 @@ public class GhostObject extends GeneralObject {
 			x += pos_offset * (float)CONST.SPRITE_SIZE;
 		} else if (last_direction == Direction.R) { 
 			x += pos_offset * (float)CONST.SPRITE_SIZE;
+		}
+		
+		if (this.last_direction == Direction.L || this.last_direction == Direction.D) {
+		    AffineTransform tx = AffineTransform.getScaleInstance(-1, 1);
+		    tx.translate(-CONST.SPRITE_SIZE, 0);
+		    AffineTransformOp op = new AffineTransformOp(tx, AffineTransformOp.TYPE_NEAREST_NEIGHBOR);
+		    
+			g.drawImage(op.filter((BufferedImage) CONST.GHOST_IMG, null), x, y, CONST.SPRITE_SIZE, CONST.SPRITE_SIZE, null);			
+		} else {
+			g.drawImage(CONST.GHOST_IMG, x, y, CONST.SPRITE_SIZE, CONST.SPRITE_SIZE, null);
 		}
 		
 		g.drawImage(CONST.GHOST_IMG, x, y, CONST.SPRITE_SIZE, CONST.SPRITE_SIZE, null);
