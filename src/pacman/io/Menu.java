@@ -96,7 +96,15 @@ public class Menu implements ActionListener {
 		
 		if(e.getSource() == replay) {
 	    	MazeRecorder mr = new MazeRecorder(gr);
-	    	mr.rerun();
+	    	
+			JFileChooser mazefile = new JFileChooser();			
+			int response = mazefile.showOpenDialog(null);
+			
+			if(response == JFileChooser.APPROVE_OPTION) 
+			{
+				File file = new File(mazefile.getSelectedFile().getAbsolutePath());
+		    	mr.rerun(file);
+			}
 	    	this.closeMenu();
 		}
 		

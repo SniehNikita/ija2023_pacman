@@ -1,7 +1,8 @@
-/*
- * IJA 2022/23: Úloha 2
- * Spuštění presentéru (vizualizace) implementace modelu bludiště.
+/**
+ * @Author xsnieh00 , xstang03
+ * Main class of this program , runs program and starts the logging of a game
  */
+
 package pacman;
 
 import pacman.io.Menu;
@@ -17,11 +18,5 @@ public class Main {
     	gr.createDefaultCFG();
     	gr.setMenu(menu);
     	menu.StartMenu();
-//    	gr.main();
-//    	gr.start();
-//    	MazeRecorder mr = new MazeRecorder(gr);
-//    	mr.rerun("filename.txt");
-//    	gr.main();
-//    	gr.start();
     }
 }

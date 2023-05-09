@@ -1,3 +1,8 @@
+/**
+ * @Author xsnieh00 , xstang03
+ * GameRunner class creates window and a thread
+ */
+
 package pacman;
 
 import java.io.BufferedReader;

@@ -1,3 +1,7 @@
+/**
+ * @Author xsnieh00 , xstang03
+ * Class used to represent Pacman Object , which represents the player
+ */
 package pacman.game;
 
 import java.awt.Graphics2D;
@@ -12,7 +16,13 @@ public class PacmanObject extends GeneralObject {
 	private int effect_invincible;
 	private CommonField start_field;
 	private int count;
-		
+				
+	/**
+	 * Object constructor
+	 * @param field at which pacman is
+	 * @param maze in which pacman exists
+	 * @param lives number of pacman's lives
+	 */
 	public PacmanObject(CommonField field, CommonMaze maze, int lives) {
 		super(field, maze);
 		this.lives = lives;
@@ -21,7 +31,10 @@ public class PacmanObject extends GeneralObject {
 		start_field = field;
 		effect_invincible = CONST.FPS * 2;
 	}
-	
+		
+	/**
+	 * checks if pacman can move in specified direction
+	 */
 	@Override
 	public boolean canMove(Direction r) {
 		CommonField next = this.getField().nextField(r);
@@ -31,6 +44,11 @@ public class PacmanObject extends GeneralObject {
 		return false;
 	}
 	
+	
+	/**
+	 * checks if player collected all keys before entering target field
+	 * @param field
+	 */
 	public void finish(CommonField field) 
 	{
 		for(int i = 0; i < ((PathField) field).objs.size(); i++) 
@@ -48,7 +66,11 @@ public class PacmanObject extends GeneralObject {
 			}
 		}
 	}
-	
+		
+	/**
+	 * decrements pacman's lives if player contacts a ghost
+	 * if lives drop to 0 player lost
+	 */
 	public void die() {
 		lives = lives - 1;
 		System.out.printf("Hit!\n");		
@@ -64,7 +86,10 @@ public class PacmanObject extends GeneralObject {
 			}
 		}
 	}
-	
+		
+	/**
+	 * @return score, pacmans score
+	 */
 	public int getScore() {
 		return this.count;
 	}
@@ -78,7 +103,10 @@ public class PacmanObject extends GeneralObject {
 	public int getLives() {
 		return this.lives;
 	}
-	
+		
+	/**
+	 * updates current game situation
+	 */
 	public void update() {
 		for (int i = 0; i < this.getMaze().ghosts().size(); i++) {
 			if (this.checkCollision(this.getMaze().ghosts().get(i))) {
@@ -108,6 +136,9 @@ public class PacmanObject extends GeneralObject {
 		}
 	}
 		
+	/**
+	 * method used for drawing
+	 */		
 	@Override
 	public void draw(Graphics2D g) {		
 		int x = this.getField().getCol()*CONST.SPRITE_SIZE;

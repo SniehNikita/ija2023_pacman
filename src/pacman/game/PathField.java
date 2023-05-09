@@ -1,3 +1,7 @@
+/**
+ * @Author xsnieh00 , xstang03
+ * PathField represents field of the maze which objects can be placed on
+ */
 package pacman.game;
 
 import java.awt.Graphics2D;
@@ -18,6 +22,9 @@ public class PathField extends GeneralField {
 		objs = new ArrayList<CommonMazeObject>();
 	}
 
+	/**
+	 * Constructor of the class, sets this field´s row and column
+	*/
 	public boolean equals(Object obj) {
 		if (obj instanceof PathField) {
 			return true;
@@ -26,6 +33,10 @@ public class PathField extends GeneralField {
 		}
 	}
 	
+	/**
+	 * Mark field as visited
+	 * @return true if field wasn't visited
+	*/
 	public boolean collect() {
 		if (is_visited) {
 			return false;
@@ -35,6 +46,10 @@ public class PathField extends GeneralField {
 		}
 	}
 
+	/**
+	 * This returns first object currently placed on this field
+	 * @return CommonMazeObject on this field
+	*/
 	@Override
 	public CommonMazeObject get() {
 		if (objs.isEmpty()) {
@@ -44,7 +59,11 @@ public class PathField extends GeneralField {
 	
 		}
 	}
-		
+				
+	/**
+	 * Removes object from this field
+	 * @return success of the operation
+	*/
 	@Override
 	public boolean remove(CommonMazeObject obj) {
 		for (int i = 0; i < objs.size(); i++) {
@@ -55,24 +74,39 @@ public class PathField extends GeneralField {
 		}
 		return false;
 	}
-	
+		
+	/**
+	 * checks if any objects are placed on this field
+	 * @return true if field is empty
+	*/
 	@Override
 	public boolean isEmpty() {
 		return objs.isEmpty();
 	}
 
+	/**
+	 * puts object on this field
+	 * @return success of operation
+	*/
 	@Override
 	public boolean put(CommonMazeObject obj) {
 		remove(obj);
 		objs.add(obj);
 		return true;
 	}
-	
+		
+	/**
+	 * checks if object can move to this field
+	 * @return True if object can move to this field
+	*/
 	@Override
 	public boolean canMove() {
 		return true;
 	}
 
+	/**
+	 * @return closest CommonField in selected direction
+	*/
 	@Override
 	public CommonField nextField(Direction r) {
 		switch (r) {
@@ -83,7 +117,11 @@ public class PathField extends GeneralField {
 		};
 		return null;
 	}
-	
+		
+	/**
+	 * Checks if CommonMazeObject obj is in this field
+	 * @return true if object is in this field
+	*/
 	public boolean contains(CommonMazeObject obj) 
 	{
 		for(int i = 0; i < objs.size(); i++) 
@@ -96,7 +134,10 @@ public class PathField extends GeneralField {
 		return false;
 	}
 	
-	
+		
+	/**
+	 * Draws object on this field
+	*/
 	@Override
 	public void draw(Graphics2D g) {
 		g.drawImage(CONST.PATHFIELD_IMG, CONST.GAME_FRAME_START_X + this.getCol() * CONST.SPRITE_SIZE, 

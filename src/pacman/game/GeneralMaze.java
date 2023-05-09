@@ -1,3 +1,8 @@
+/**
+ * @Author xsnieh00 , xstang03
+ * class used to implement a maze
+ */
+
 package pacman.game;
 
 import java.awt.Graphics2D;
@@ -27,6 +32,11 @@ public class GeneralMaze implements CommonMaze {
 	
 	private Stack<Integer> move_seeds;
 	
+	/**
+	 * Constructor for a maze , creates maze with a specified number of rows and columns
+	 * @param rows - specified number of rows
+	 * @param cols - specified number of columns
+	 */
 	public GeneralMaze(int rows, int cols) {
 		this.maze = new GeneralField[rows][cols];
 		this.rows = rows;
@@ -39,10 +49,16 @@ public class GeneralMaze implements CommonMaze {
 		this.move_seeds = new Stack<Integer>();
 	}
 	
+	/**
+	 * adds random seed of ghost movement to seed stack
+	 */
 	public void addSeed(int move_seed) {
 		this.move_seeds.push(move_seed);
 	}
 	
+	/**
+	 * gets random seed of ghost movement from seed stack
+	 */
 	public int getSeed() {
 		if (this.move_seeds.size() > 0) {
 			return this.move_seeds.pop();	
@@ -51,26 +67,49 @@ public class GeneralMaze implements CommonMaze {
 		}
 	}
 	
+	/**
+	 * Sets game runner
+	 */
 	public void setRunner(GameRunner gr) {
 		this.gr = gr;
 	}
 	
+	/**
+	 * returns
+	 */
 	public GameRunner getRunner() {
 		return this.gr;
 	}
 	
+	/**
+	 * sets logging object
+	 */
+	
 	public void setRecorder(MazeRecorder rec) {
-		this.rec = rec;
+		this.	rec = rec;
 	}
 	
+	
+	/**
+	 * removes logging object
+	 */
 	public void removeRecorder() {
 		this.rec = null;
 	}
 	
+	
+	/**
+	 * @return returns object for logging
+	 */
 	public MazeRecorder getRecorder() {
 		return this.rec;
 	}
 	
+	/**
+	 * @return CommonField at specified row and collumn
+	 * @param i - specified row
+	 * @param c - specified column
+	 */
 	@Override
 	public CommonField getField(int i, int c) {
 		if (i < 0 || c < 0 || i > rows-1 || c > cols-1) {
@@ -79,36 +118,60 @@ public class GeneralMaze implements CommonMaze {
 		return maze[i][c];
 	}
 
+	/**
+	 * creates new list for storing ghost objects
+	 */
 	@Override
 	public List<CommonMazeObject> ghosts() {
 		return new ArrayList<CommonMazeObject>(ghost_list);
 	}
 
+	/**
+	 * creates new list for storing pacman objects
+	 */
 	@Override
 	public List<CommonMazeObject> pacmans() {
 		return new ArrayList<CommonMazeObject>(pacman_list);
 	}
 
+	/**
+	 * creates new list for storing key objects
+	 */
 	@Override
 	public List<CommonMazeObject> keys() {
 		return new ArrayList<CommonMazeObject>(key_list);
 	}
 
+	/**
+	 * creates new list for storing target objects
+	 */
 	@Override
 	public List<CommonMazeObject> targets() {
 		return new ArrayList<CommonMazeObject>(target_list);
 	}
 
+	/**
+	 * @return number of columns of this maze
+	 */
 	@Override
 	public int numCols() {
 		return cols;
 	}
 
+	/**
+	 * @return number of rows of this maze
+	 */
 	@Override
 	public int numRows() {
 		return rows;
 	}
 
+	/**
+	 * spawns pacman in this maze at specified coordinates
+	 * @param r - specified row
+	 * @param c - specified column
+	 * @return success of operation
+	 */
 	public boolean spawnPacman(int r, int c) {
 		PacmanObject pacman = new PacmanObject(getField(r,c), this, livesNumber);
 		pacman_list.add(pacman);
@@ -119,6 +182,12 @@ public class GeneralMaze implements CommonMaze {
 		return true;
 	}
 	
+	/**
+	 * spawns ghost in this maze at specified coordinates
+	 * @param r - specified row
+	 * @param c - specified column
+	 * @return success of operation
+	 */
 	public boolean spawnGhost(int r, int c) {
 		GhostObject ghost = new GhostObject(getField(r,c), this, this.ghost_list.size());	
 		ghost_list.add(ghost);	
@@ -129,6 +198,12 @@ public class GeneralMaze implements CommonMaze {
 		return true;
 	}
 	
+	/**
+	 * spawns key in this maze at specified coordinates
+	 * @param r - specified row
+	 * @param c - specified column
+	 * @return success of operation
+	 */
 	public boolean spawnKey(int r, int c) 
 	{
 		KeyObject key = new KeyObject(getField(r,c), this);
@@ -140,6 +215,11 @@ public class GeneralMaze implements CommonMaze {
 		return true;
 	}
 	
+	/**
+	 * removes specified key from this maze 
+	 * @param key - key object to be removed
+	 * @return success of operation
+	 */
 	public boolean removeKey(CommonMazeObject key) 
 	{
 		for(int i = 0; i < key_list.size(); i++) 
@@ -153,6 +233,12 @@ public class GeneralMaze implements CommonMaze {
 		return false;
 	}
 	
+	/**
+	 * spawns target in this maze at specified coordinates
+	 * @param r - specified row
+	 * @param c - specified column
+	 * @return success of operation
+	 */
 	public boolean spawnTarget(int r, int c) 
 	{
 		TargetObject target = new TargetObject(getField(r,c), this);
@@ -164,6 +250,12 @@ public class GeneralMaze implements CommonMaze {
 		return true;
 	}
 	
+	/**
+	 * spawns WallField in this maze at specified coordinates
+	 * @param r - specified row
+	 * @param c - specified column
+	 * @return success of operation
+	 */
 	public boolean putWall(int r, int c) {
 		if (r < 0 || c < 0 || r > rows-1 || c > cols-1) {
 			return false;
@@ -174,6 +266,12 @@ public class GeneralMaze implements CommonMaze {
 		return true;
 	}
 	
+	/**
+	 * spawns PathField in this maze at specified coordinates
+	 * @param r - specified row
+	 * @param c - specified column
+	 * @return success of operation
+	 */
 	public boolean putPath(int r, int c) {
 		if (r < 0 || c < 0 || r > rows-1 || c > cols-1) {
 			return false;
@@ -184,6 +282,12 @@ public class GeneralMaze implements CommonMaze {
 		return true;
 	}
 	
+	/**
+	 * initiates field at specified coordinates
+	 * @param r - specified row
+	 * @param c - specified column
+	 * @return success of operation
+	 */
 	public boolean initField(int r, int c) {
 		if (r < 0 || c < 0 || r > rows-1 || c > cols-1) {
 			return false;
@@ -192,6 +296,9 @@ public class GeneralMaze implements CommonMaze {
 		return true;
 	}
 
+	/**
+	 * draws objects in maze
+	 */
 	@Override
 	public void draw(Graphics2D g) {
 		for (int i = 0; i < this.numRows(); i++) {
@@ -213,6 +320,11 @@ public class GeneralMaze implements CommonMaze {
 		}		
 	}
 
+	/**
+	 * moves pacman to a specified field
+	 * @param pacman - pacman object
+	 * @param field - specified field
+	 */
 	@Override
 	public void movePacman(CommonMazeObject pacman, CommonField field) {	
 		((PathField) pacman.getField()).remove(pacman);
@@ -220,6 +332,10 @@ public class GeneralMaze implements CommonMaze {
 		((GeneralObject) pacman).setField(field);
 	}
 	
+	/**
+	 * removes pacman from this maze
+	 * @param pacman object to be removed
+	 */	
 	public void removePacman(CommonMazeObject pacman) {	
 		for (int i = 0; i < this.pacmans().size(); i++) {
 			if (this.pacman_list.get(i) == pacman) {
@@ -232,6 +348,10 @@ public class GeneralMaze implements CommonMaze {
 		}
 	}
 
+	/**
+	 * Removes key from a specified field
+	 * @param field - specified fields
+	 */
 	public void collectKey(CommonField field) {
 		for (int i = 0; i < this.keys().size(); i++) {
 			if (this.key_list.get(i).getField() == field) {
@@ -240,6 +360,12 @@ public class GeneralMaze implements CommonMaze {
 		}		
 	}
 
+	/**
+	 * Checks if pacman collected all the keys upon reaching target location
+	 * if not , user is prompted to collect all keys before finishing the game
+	 * @param pacman object
+	 * @param target - target field
+	 */
 	public void reachTarget(CommonMazeObject pacman, CommonMazeObject target) {
 		if (this.key_list.size() == 0) {
 			int score = ((PacmanObject)this.pacman_list.get(0)).getScore();

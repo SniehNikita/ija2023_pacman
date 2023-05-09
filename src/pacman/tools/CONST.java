@@ -30,6 +30,7 @@ public final class CONST {
 	public static final java.net.URL KEY_PATH = CONST.class.getResource("/sprites/key_0.png");
 	public static final java.net.URL DOOR_PATH = CONST.class.getResource("/sprites/door_0.png");
 	public static final java.net.URL HEART_PATH = CONST.class.getResource("/sprites/heart_0.png");
+	public static final java.net.URL DEFAULT_MAZE_PATH2 = CONST.class.getResource("/mazes/default.txt");
 	
 	public static final String DEFAULT_MAZE_PATH = "lib/mazes/default.txt";
 

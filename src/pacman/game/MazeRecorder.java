@@ -1,7 +1,12 @@
+/**
+ * @Author xsnieh00 , xstang03
+ * class used for game logging and providing replays
+ */
 package pacman.game;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -29,7 +34,12 @@ public class MazeRecorder {
 	private CommonMaze maze;
 	
 	public boolean is_rec;
-	
+		
+	/**
+	 * constructor of logging class
+	 * @param key_input - handler of input keys
+	 * @param gr - game runner class
+	 */
 	public MazeRecorder(GameInput key_input, GameRunner gr) {
 		log_buffer = new String();
 		frame_num = 0;
@@ -55,15 +65,19 @@ public class MazeRecorder {
 	public MazeRecorder() {
 		this(null, null);
 	}
-	
-	public void rerun() {
+
+	/**
+	 * shows replay of a game from a file
+	 * @param filename - containing replay of a game
+	 */
+	public void rerun(File file) {
 		MazeConfigure cfg = new MazeConfigure();
 	    BufferedReader reader = null;
 
 	    gr.main();
 
 	    try {
-			reader = new BufferedReader(new FileReader("replay_log.txt"));
+			reader = new BufferedReader(new FileReader(file));
 		} catch (FileNotFoundException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
@@ -89,7 +103,6 @@ public class MazeRecorder {
 			cfg.startReading(rows, cols);
 			for (int i = 0; i < rows; i++) {
 				str = reader.readLine();
-//				str = str.substring(0, str.length()-1);
 				cfg.processLine(str);
 			}
 			while (line != null) {
@@ -110,6 +123,7 @@ public class MazeRecorder {
         
         GameFrame gf = new GameFrame(maze);
     	gr.setGameFrame(gf);
+    	gr.setMazeRecorder(this);
     	
     	key_input = gf.getKeyInput();
     	key_input.setSim(true);
@@ -120,11 +134,12 @@ public class MazeRecorder {
         gr.setMazeRecorder(this);
         gr.getMainFrame().setVisible(true);
         
-//        frame_num += 2;
-        
         gr.start();
 	}
 
+	/**
+	 * updates inputs of a game log
+	 */
 	public void updateInputs() {
 		int i = 0;
 		int log_fr_num = 0;
@@ -183,7 +198,10 @@ public class MazeRecorder {
 		}
 		frame_num++;
 	}
-	
+
+	/**
+	 * stops game logging
+	 */
 	public void stop() {
 	    BufferedWriter writer;
 	    writer = null;
@@ -207,21 +225,37 @@ public class MazeRecorder {
 		}		
 	}
 
+	/**
+	 * sets key listener
+	 * @param key_input - key listener
+	 */
 	public void setKeyListener(GameInput key_input) {
 		this.key_input = key_input;		
 	}
 
+	/**
+	 * updates every frame if input is not null
+	 */
 	public void update() {
 		if (key_input != null) {
 			this.userinput();			
 		}
 		frame_num++;
 	}
-	
+		
+	/**
+	 * Configures maze for logging purposes
+	 * @param mazeline
+	 */
 	public void mazeConfigure(String mazeline) {
 		log_buffer += mazeline + "\n";
 	}
-	
+
+	/**
+	 * logs ghost movement
+	 * @param ghost_num - number of ghost
+	 * @param direction_seed - direction of ghost´s movement
+	 */
 	public void ghostMovementSeed(int ghost_num, int direction_seed) {
 		if (ghost_seeds[ghost_num] == -1) {
 			ghost_seeds[ghost_num] = direction_seed;
@@ -229,6 +263,9 @@ public class MazeRecorder {
 		}
 	}
 	
+	/**
+	 * adds pacman movement to game log
+	 */
 	public void userinput() {
 		if (key_input.isKeyPressed(CONST.UP_KEY)) {
 			if (is_up == false) { is_up = true; log_buffer += Integer.toString(frame_num) + ":i:d:U\n"; }

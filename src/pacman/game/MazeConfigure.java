@@ -1,3 +1,7 @@
+/**
+ * @Author xsnieh00 , xstang03
+ * class used to configure a maze
+ */
 package pacman.game;
 
 import pacman.tools.CommonMaze;
@@ -9,6 +13,11 @@ public class MazeConfigure {
 	private int curLine = 0;
 	private boolean isReading = false;
 
+	/**
+	 * starts reading a maze
+	 * @param rows - number of rows in this maze
+	 * @param cols - number of columns in this maze
+	 */
 	public void startReading(int rows, int cols) {
 		if (!isReading) {
 			// TODO ERRHANDLE
@@ -28,6 +37,10 @@ public class MazeConfigure {
 		}
 	}
 
+	/**
+	 * method used for constructing a maze
+	 * @param string 1 line of specified maze
+	 */
 	public void processLine(String string) {
 		if (isReading && curLine < maze.numRows()) {
 			for (int i = 0; i < string.length(); i++) {
@@ -51,6 +64,9 @@ public class MazeConfigure {
 		} 
 	}
 
+	/**
+	 * stops maze construction
+	 */
 	public void stopReading() {
 		if (isReading && curLine + 1 == maze.numRows()) {
 			// fclose(stdin);
@@ -60,6 +76,10 @@ public class MazeConfigure {
 		}
 	}
 
+	/**
+	 * finishes maze construction
+	 * @return CommonMaze object containing created maze
+	 */
 	public CommonMaze createMaze() {
 		for (int i = 0; i < maze.numRows(); i++) {
 			((GeneralMaze) maze).putWall(i, 0);

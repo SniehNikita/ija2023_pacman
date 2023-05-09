@@ -16,6 +16,12 @@ public class GhostObject extends GeneralObject {
 	private int move_seed;
 	private int move_num;
 	
+	/**
+	 * constructor of method
+	 * @param field at which ghost currently is 
+	 * @param maze in which ghosts exists
+	 * @param ghost_num number of ghosts
+	 */
 	public GhostObject(CommonField field, CommonMaze maze, int ghost_num) {
 		super(field, maze);
 		this.ghost_num = ghost_num;
@@ -26,11 +32,19 @@ public class GhostObject extends GeneralObject {
 		move_num = move_seed % 10 + 1;
 	}
 	
+	/**
+	 * sets direction for ghost to move
+	 * @param seed
+	 */
 	public void setDirectionSeed(int seed) {
 		this.move_seed = seed;
 		this.move_num = move_seed % 10 + 1;
 	}
 	
+	/**
+	 * checks if ghost can move in specific direction
+	 * @param r - direction to move
+	 */
 	@Override
 	public boolean canMove(Direction r) {
 		CommonField next = this.getField().nextField(r);
@@ -40,12 +54,21 @@ public class GhostObject extends GeneralObject {
 		return false;
 	}
 
+	/**
+	 * moves ghost in specified direction
+	 * @param d direction for ghost to move to
+	 */
 	@Override
 	public boolean move(Direction d) {
 		d = this.chooseDirection(d);
 		return super.move(d);
 	}
-	
+		
+	/**
+	 * chooses a direction in which the ghost will move
+	 * @param d
+	 * @return Direction in which the ghost will next move
+	 */
 	private Direction chooseDirection(Direction d) {
 		List<Direction> d_list = new ArrayList<Direction>();
 		if (d == null) {
@@ -77,23 +100,38 @@ public class GhostObject extends GeneralObject {
 			return d_list.get(seed & (d_list.size() - 1));
 		}
 	}
-	
+		
+	/**
+	 * returns false becaus object is a ghost
+	 */
 	@Override
 	public boolean isPacman() {
 		return false;
 	}
 
+	/**
+	 * returns 0 because ghosts don't have lives
+	 */
 	@Override
 	public int getLives() {
 		// TODO Exception
 		return 0;
 	}
-	
+		
+	/**
+	 * gets random number to help with choosing movement direction
+	 * @param min - minimal number to choose from
+	 * @param max - maximal number to choose from
+	 * @return returns random number from specified range
+	 */
 	private int getRandomNumber(int min, int max) {
 	    return (int) ((Math.random() * (max - min)) + min);
 	}
 	
-	
+		
+	/**
+	 * method for drawing ghosts on game screen
+	 */
 	@Override
 	public void draw(Graphics2D g) {	
 		int x = this.getField().getCol()*CONST.SPRITE_SIZE;

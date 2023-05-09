@@ -1,3 +1,7 @@
+/**
+ * @Author xsnieh00 , xstang03
+ * Class used to describe objects which can be placed on game fields
+ */
 package pacman.game;
 
 import java.awt.Graphics2D;
@@ -16,6 +20,11 @@ public class GeneralObject implements CommonMazeObject {
 	protected float pos_offset = 0;
 	protected Direction last_direction;
 	
+	/**
+	 * constructor method
+	 * @param field - current location of object
+	 * @param maze - maze in which object exists
+	 */
 	public GeneralObject(CommonField field, CommonMaze maze) {
 		pos_field = field;
 		pos_maze = maze;
@@ -23,6 +32,9 @@ public class GeneralObject implements CommonMazeObject {
 		last_direction = Direction.U;
 	}	
 	
+	/**
+	 * checks if object can move in specified direction
+	 */
 	public boolean canMove(Direction r) {		
 		CommonField next = this.getField().nextField(r);
 		if (next != null && next.canMove()) {
@@ -31,22 +43,37 @@ public class GeneralObject implements CommonMazeObject {
 		return false;
 	}
 	
+	/**
+	 * sets position of this object to specified field
+	 */	
 	public void setField(CommonField field) {
 		this.pos_field = field;
 	}
 	
+	/**
+	 * gets field at which object currently is
+	 */
 	public CommonField getField() {
 		return pos_field;
 	}
 	
+	/**
+	 * @return maze in which objects exists
+	 */
 	public CommonMaze getMaze() {
 		return pos_maze;
 	}
 	
+	/**
+	 * only pacman object has lives
+	 */
 	public int getLives() {
 		return 0;
 	}
 
+	/**
+	 * moves object in target direction
+	 */
 	public boolean move(Direction d) {
 		Direction l = last_direction;
 		float offset = (float)CONST.PACMAN_SPEED / (float)CONST.FPS;
@@ -128,6 +155,9 @@ public class GeneralObject implements CommonMazeObject {
 		return true;
 	}
 
+	/**
+	 * returns X position of object
+	 */
 	public float getX() {
 		if (this.last_direction == Direction.D || this.last_direction == Direction.R) {
 			return this.getField().getCol() + pos_offset;
@@ -136,6 +166,9 @@ public class GeneralObject implements CommonMazeObject {
 		}
 	}
 
+	/**
+	 * returns Y position of object
+	 */
 	public float getY() {
 		if (this.last_direction == Direction.D || this.last_direction == Direction.R) {
 			return this.getField().getRow() + pos_offset;
@@ -144,6 +177,9 @@ public class GeneralObject implements CommonMazeObject {
 		}
 	}
 
+	/**
+	 * checks for collisions with different objects
+	 */
 	@Override
 	public boolean checkCollision(CommonMazeObject obj) {
 		float x1 = this.getX();
@@ -154,12 +190,18 @@ public class GeneralObject implements CommonMazeObject {
 		return Math.sqrt(Math.pow(x2-x1, 2) + Math.pow(y2-y1, 2)) < 0.5;
 	}
 
+	/**
+	 * checks if object is pacman
+	 */
 	@Override
 	public boolean isPacman() {
 		// TODO Auto-generated method stub
 		return false;
 	}
-	
+		
+	/**
+	 * method used for drawing
+	 */
 	@Override
 	public void draw(Graphics2D g) {
 		
